@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "781172194945",
+    "project_id": "vitrine-51eda",
+    "storage_bucket": "vitrine-51eda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:781172194945:android:dc17af0214c1dde8889780",
+        "android_client_info": {
+          "package_name": "br.com.yann.vitrine.vitrine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "781172194945-irb86r7pghcgp9vd5d7gtlq5ur38skpv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5zengPbbtazWUSwRbixgqLeeATpsfWPI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "781172194945-irb86r7pghcgp9vd5d7gtlq5ur38skpv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
