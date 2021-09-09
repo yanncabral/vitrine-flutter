@@ -345,9 +345,10 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.7)
   - BoringSSL-GRPC/Interface (0.0.7)
   - cloud_firestore (2.5.0):
-    - Firebase/Firestore (= 8.5.0)
+    - Firebase/CoreOnly (~> 8.5.0)
+    - Firebase/Firestore (~> 8.5.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - Firebase/Auth (8.5.0):
     - Firebase/CoreOnly
     - FirebaseAuth (~> 8.5.0)
@@ -360,16 +361,18 @@ PODS:
     - Firebase/CoreOnly
     - FirebaseStorage (~> 8.5.0)
   - firebase_auth (3.0.2):
-    - Firebase/Auth (= 8.5.0)
+    - Firebase/Auth (~> 8.5.0)
+    - Firebase/CoreOnly (~> 8.5.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - firebase_core (1.5.0):
-    - Firebase/CoreOnly (= 8.5.0)
-    - Flutter
+    - Firebase/CoreOnly (~> 8.5.0)
+    - FlutterMacOS
   - firebase_storage (10.0.2):
-    - Firebase/Storage (= 8.5.0)
+    - Firebase/CoreOnly (~> 8.5.0)
+    - Firebase/Storage (~> 8.5.0)
     - firebase_core
-    - Flutter
+    - FlutterMacOS
   - FirebaseAuth (8.5.0):
     - FirebaseCore (~> 8.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.4)
@@ -400,7 +403,7 @@ PODS:
   - FirebaseStorage (8.5.0):
     - FirebaseCore (~> 8.0)
     - GTMSessionFetcher/Core (~> 1.5)
-  - Flutter (1.0.0)
+  - FlutterMacOS (1.0.0)
   - GoogleDataTransport (9.1.0):
     - GoogleUtilities/Environment (~> 7.2)
     - nanopb (~> 2.30908.0)
@@ -451,17 +454,14 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
-  - path_provider (0.0.1):
-    - Flutter
   - PromisesObjC (2.0.0)
 
 DEPENDENCIES:
-  - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
-  - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
-  - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
-  - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
-  - Flutter (from `Flutter`)
-  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - cloud_firestore (from `Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos`)
+  - firebase_auth (from `Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos`)
+  - firebase_core (from `Flutter/ephemeral/.symlinks/plugins/firebase_core/macos`)
+  - firebase_storage (from `Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos`)
+  - FlutterMacOS (from `Flutter/ephemeral`)
 
 SPEC REPOS:
   trunk:
@@ -484,32 +484,30 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   cloud_firestore:
-    :path: ".symlinks/plugins/cloud_firestore/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/cloud_firestore/macos
   firebase_auth:
-    :path: ".symlinks/plugins/firebase_auth/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_auth/macos
   firebase_core:
-    :path: ".symlinks/plugins/firebase_core/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_core/macos
   firebase_storage:
-    :path: ".symlinks/plugins/firebase_storage/ios"
-  Flutter:
-    :path: Flutter
-  path_provider:
-    :path: ".symlinks/plugins/path_provider/ios"
+    :path: Flutter/ephemeral/.symlinks/plugins/firebase_storage/macos
+  FlutterMacOS:
+    :path: Flutter/ephemeral
 
 SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
-  cloud_firestore: e0516b69697b348db9a4d65f3b610dfd5ba3ac1e
+  cloud_firestore: b1fb843666218b20fbf0ee260c164cd1e2f50685
   Firebase: ff8c73105b90e33e1dc6c8e5445d7adc2ccdc7c1
-  firebase_auth: 214ff86facd807bbb0ccff32f4b2d3865e3bc4f3
-  firebase_core: 82d486a6231b636aea229bd471bceca82cbe00a6
-  firebase_storage: 4acd6798eb6c3757fc261b2654f7cf0ee1bb3de8
+  firebase_auth: 1bd76892717ea8c327a6890337f1db32871e95b7
+  firebase_core: 9f72bfd24263ec2b839d63cdf471545873960dc6
+  firebase_storage: 9c9c0946705d1c929416d082340e859d88c96078
   FirebaseAuth: b152ea261b60eeb9419ae7e5bf34761382b33277
   FirebaseCore: 1c1ca72483b59b17050f5b4cec4fb748425a3901
   FirebaseCoreDiagnostics: 7bf55d386f9fc690d971b70a582142321a390eb8
   FirebaseFirestore: 9aa10de35bb76a5fe40fdf5c858669f0eac88a99
   FirebaseStorage: 2c176ca64a68b45bddc3c7d4d2c0c839927ad92c
-  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  FlutterMacOS: 57701585bf7de1b3fc2bb61f6378d73bbdea8424
   GoogleDataTransport: 85fd18ff3019bb85d3f2c551d04c481dedf71fc9
   GoogleUtilities: eea970f4a389963963bffe8d8fabe43540678b9c
   "gRPC-C++": 13d8ccef97d5c3c441b7e3c529ef28ebee86fad2
@@ -517,9 +515,8 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 36689134877faeb055b27dfa4ccc9ceaa42e029e
   leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
-  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   PromisesObjC: 68159ce6952d93e17b2dfe273b8c40907db5ba58
 
-PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
+PODFILE CHECKSUM: c7161fcf45d4fd9025dc0f48a76d6e64e52f8176
 
 COCOAPODS: 1.10.1
