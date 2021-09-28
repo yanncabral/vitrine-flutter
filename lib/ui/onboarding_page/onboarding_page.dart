@@ -106,7 +106,9 @@ class OnboardingInterface extends StatelessWidget {
                   child: MaterialButton(
                     height: 60,
                     padding: EdgeInsets.zero,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushNamed("/auth");
+                    },
                     child: ListTile(
                       contentPadding:
                           const EdgeInsets.only(left: 32, right: 16),
