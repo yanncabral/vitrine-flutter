@@ -8,7 +8,7 @@ class OnboardingPage extends StatelessWidget {
           child: Image.asset(
             "assets/onboarding.jpg",
             fit: BoxFit.cover,
-            color: Colors.blue.withOpacity(0.7),
+            color: Colors.blue.withOpacity(0.8),
             colorBlendMode: BlendMode.dstATop,
             alignment: Alignment.topCenter,
           ),
