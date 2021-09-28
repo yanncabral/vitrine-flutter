@@ -50,7 +50,7 @@ final textTheme = TextTheme(
     letterSpacing: -1,
   ),
   caption: GoogleFonts.overpass(
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: FontWeight.bold,
     height: 1.3,
     letterSpacing: 1,
