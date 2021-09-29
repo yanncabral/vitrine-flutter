@@ -3,7 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
-class SignInPage extends StatelessWidget {
+class SignUpPresenter {}
+
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
