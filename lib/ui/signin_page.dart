@@ -1,29 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        automaticallyImplyLeading: false,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0),
+            child: CircleAvatar(
+              backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
+              child: IconButton(
+                color: VanillaColorScheme.black,
+                onPressed: () => Navigator.of(context).pop(),
+                icon: const Icon(Icons.close),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
-                    foregroundColor: VanillaColorScheme.black,
-                    child: const Icon(Icons.close),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
               Text(
-                "Entrar",
+                "Registrar",
                 style: Theme.of(context)
                     .textTheme
                     .headline2
@@ -32,33 +42,51 @@ class SignInPage extends StatelessWidget {
               const SizedBox(height: 32),
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
-                    foregroundColor: VanillaColorScheme.black,
-                    child: Image.asset(
-                      "assets/icons/apple.png",
-                      height: 20,
+                  MaterialButton(
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    minWidth: 0,
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor:
+                          VanillaColorScheme.medium.withOpacity(0.2),
+                      foregroundColor: VanillaColorScheme.black,
+                      child: Image.asset(
+                        "assets/icons/apple.png",
+                        height: 20,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
-                    foregroundColor: VanillaColorScheme.black,
-                    child: Image.asset(
-                      "assets/icons/google.png",
-                      height: 20,
+                  MaterialButton(
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    minWidth: 0,
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor:
+                          VanillaColorScheme.medium.withOpacity(0.2),
+                      foregroundColor: VanillaColorScheme.black,
+                      child: Image.asset(
+                        "assets/icons/google.png",
+                        height: 20,
+                      ),
                     ),
                   ),
                   const SizedBox(width: 8),
-                  CircleAvatar(
-                    radius: 24,
-                    backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
-                    foregroundColor: VanillaColorScheme.black,
-                    child: Image.asset(
-                      "assets/icons/facebook.png",
-                      height: 20,
+                  MaterialButton(
+                    onPressed: () {},
+                    padding: EdgeInsets.zero,
+                    minWidth: 0,
+                    child: CircleAvatar(
+                      radius: 24,
+                      backgroundColor:
+                          VanillaColorScheme.medium.withOpacity(0.2),
+                      foregroundColor: VanillaColorScheme.black,
+                      child: Image.asset(
+                        "assets/icons/facebook.png",
+                        height: 20,
+                      ),
                     ),
                   ),
                 ],
@@ -73,7 +101,7 @@ class SignInPage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               TextField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.name,
                 style: Theme.of(context).textTheme.caption?.copyWith(
                       color: VanillaColorScheme.black,
                     ),
@@ -199,6 +227,38 @@ class SignInPage extends StatelessWidget {
                             color: VanillaColorScheme.secondary,
                           ),
                     ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () {},
+                      child: RichText(
+                        text: TextSpan(
+                            text: "Eu concordo com os ",
+                            style: Theme.of(context).textTheme.caption,
+                            children: [
+                              TextSpan(
+                                text: "Termos de Uso",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .caption
+                                    ?.copyWith(
+                                      color: VanillaColorScheme.secondary,
+                                    ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ),
+                  VanillaActionButton(
+                    title: "Continuar",
+                    onPressed: () {},
+                    colorScheme: Brightness.dark,
                   ),
                 ],
               ),
