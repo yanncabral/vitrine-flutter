@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 
 class OnboardingPage extends StatelessWidget {
   @override
@@ -95,40 +96,10 @@ class OnboardingInterface extends StatelessWidget {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  width: 180,
-                  alignment: Alignment.center,
-                  clipBehavior: Clip.hardEdge,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    color: Colors.white,
-                  ),
-                  child: MaterialButton(
-                    height: 60,
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      Navigator.of(context).pushNamed("/auth");
-                    },
-                    child: ListTile(
-                      contentPadding:
-                          const EdgeInsets.only(left: 32, right: 16),
-                      trailing: CircleAvatar(
-                        backgroundColor:
-                            const Color(0xff9191A6).withOpacity(0.1),
-                        child: const Icon(
-                          Icons.chevron_right,
-                          color: Colors.black,
-                        ),
-                      ),
-                      title: Text(
-                        "Entrar",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline4
-                            ?.copyWith(color: Colors.black),
-                      ),
-                    ),
-                  ),
+                VanillaActionButton(
+                  title: "Entrar",
+                  onPressed: () => Navigator.of(context).pushNamed("/auth"),
+                  colorScheme: Brightness.light,
                 ),
               ],
             ),
