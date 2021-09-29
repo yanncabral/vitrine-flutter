@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class VanillaActionButton extends StatelessWidget {
   final String title;
@@ -20,7 +21,9 @@ class VanillaActionButton extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        color: Colors.white,
+        color: colorScheme == Brightness.light
+            ? Colors.white
+            : VanillaColorScheme.dark,
       ),
       child: MaterialButton(
         height: 60,
@@ -30,17 +33,18 @@ class VanillaActionButton extends StatelessWidget {
           contentPadding: const EdgeInsets.only(left: 32, right: 16),
           trailing: CircleAvatar(
             backgroundColor: const Color(0xff9191A6).withOpacity(0.1),
-            child: const Icon(
+            child: Icon(
               Icons.chevron_right,
-              color: Colors.black,
+              color:
+                  colorScheme == Brightness.light ? Colors.black : Colors.white,
             ),
           ),
           title: Text(
             title,
-            style: Theme.of(context)
-                .textTheme
-                .headline4
-                ?.copyWith(color: Colors.black),
+            style: Theme.of(context).textTheme.headline4?.copyWith(
+                color: colorScheme == Brightness.light
+                    ? Colors.black
+                    : Colors.white),
           ),
         ),
       ),
