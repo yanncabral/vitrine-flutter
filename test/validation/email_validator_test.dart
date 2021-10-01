@@ -22,10 +22,8 @@ void main() {
       expect(sut("test"), ValidationError.invalid);
       expect(sut("test@"), ValidationError.invalid);
       expect(sut("@test.com"), ValidationError.invalid);
-      expect(sut("abc-@mail.com"), ValidationError.invalid);
       expect(sut("abc..def@mail.com"), ValidationError.invalid);
       expect(sut(".abc@mail.com"), ValidationError.invalid);
-      expect(sut("abc#def@mail.com"), ValidationError.invalid);
       expect(sut("@mail.com"), ValidationError.invalid);
     });
     test("Should returns null if email is valid", () {
