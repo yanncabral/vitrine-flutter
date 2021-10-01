@@ -16,9 +16,9 @@ class EmailValidator implements Validator<String> {
 
 void main() {
   final faker = Faker();
+  final sut = EmailValidator();
   group("EmailValidator", () {
     test("Should returns a ValidationError if email is invalid", () {
-      final sut = EmailValidator();
       expect(sut("test"), ValidationError.invalid);
       expect(sut("test@"), ValidationError.invalid);
       expect(sut("@test.com"), ValidationError.invalid);
@@ -27,7 +27,6 @@ void main() {
       expect(sut("@mail.com"), ValidationError.invalid);
     });
     test("Should returns null if email is valid", () {
-      final sut = EmailValidator();
       expect(sut("yann@gmail.com"), null);
       expect(sut(faker.internet.email()), null);
       expect(sut(faker.internet.freeEmail()), null);
