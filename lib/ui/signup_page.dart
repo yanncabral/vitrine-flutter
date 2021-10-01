@@ -3,7 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
-class SignUpPresenter {}
+// class PersonName {
+//   final String _value;
+//   PersonName(this._value);
+//   @override
+//   String toString() => _value;
+// }
+
+// class SignUpPresenter {}
 
 class SignUpPage extends StatelessWidget {
   @override
