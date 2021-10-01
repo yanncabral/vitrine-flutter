@@ -3,22 +3,41 @@ import 'package:flutter/services.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
-// class PersonName {
-//   final String _value;
-//   PersonName(this._value);
-//   @override
-//   String toString() => _value;
-// }
+class SignUpPage extends StatefulWidget {
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
 
-// class SignUpPresenter {}
+class _SignUpPageState extends State<SignUpPage> {
+  late ScrollController _scrollController;
+  bool isScrolledDown = true;
 
-class SignUpPage extends StatelessWidget {
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        final newIsScrolledDown = _scrollController.offset <= 0;
+        if (newIsScrolledDown != isScrolledDown) {
+          setState(() {
+            isScrolledDown = newIsScrolledDown;
+          });
+        }
+      });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        elevation: 0,
+        elevation: isScrolledDown ? 0 : 3,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         automaticallyImplyLeading: false,
         actions: [
@@ -28,253 +47,283 @@ class SignUpPage extends StatelessWidget {
               backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
               child: IconButton(
                 color: VanillaColorScheme.black,
-                onPressed: () => Navigator.of(context).pop(),
+                onPressed: Navigator.of(context).pop,
                 icon: const Icon(Icons.close),
               ),
             ),
           ),
         ],
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(32.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Registrar",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline2
-                    ?.copyWith(color: VanillaColorScheme.black),
-              ),
-              const SizedBox(height: 32),
-              Row(
-                children: [
-                  MaterialButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    minWidth: 0,
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor:
-                          VanillaColorScheme.medium.withOpacity(0.2),
-                      foregroundColor: VanillaColorScheme.black,
-                      child: Image.asset(
-                        "assets/icons/apple.png",
-                        height: 20,
+      body: LayoutBuilder(builder: (context, constraint) {
+        return SingleChildScrollView(
+          controller: _scrollController,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraint.maxHeight),
+            child: IntrinsicHeight(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Registrar",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline2
+                            ?.copyWith(color: VanillaColorScheme.black),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  MaterialButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    minWidth: 0,
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor:
-                          VanillaColorScheme.medium.withOpacity(0.2),
-                      foregroundColor: VanillaColorScheme.black,
-                      child: Image.asset(
-                        "assets/icons/google.png",
-                        height: 20,
+                      const SizedBox(height: 32),
+                      socialLoginButtons(),
+                      const SizedBox(height: 32),
+                      Text(
+                        "Ou com email",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText1
+                            ?.copyWith(color: VanillaColorScheme.medium),
                       ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  MaterialButton(
-                    onPressed: () {},
-                    padding: EdgeInsets.zero,
-                    minWidth: 0,
-                    child: CircleAvatar(
-                      radius: 24,
-                      backgroundColor:
-                          VanillaColorScheme.medium.withOpacity(0.2),
-                      foregroundColor: VanillaColorScheme.black,
-                      child: Image.asset(
-                        "assets/icons/facebook.png",
-                        height: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
-              Text(
-                "Ou com email",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1
-                    ?.copyWith(color: VanillaColorScheme.medium),
-              ),
-              const SizedBox(height: 32),
-              TextField(
-                keyboardType: TextInputType.name,
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                      color: VanillaColorScheme.black,
-                    ),
-                cursorColor: VanillaColorScheme.dark,
-                decoration: InputDecoration(
-                  labelText: "Nome",
-                  labelStyle: Theme.of(context).textTheme.caption?.copyWith(
-                        color: VanillaColorScheme.black.withOpacity(0.4),
-                      ),
-                  filled: true,
-                  fillColor: VanillaColorScheme.light,
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.error,
-                      width: 0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                      color: VanillaColorScheme.black,
-                    ),
-                cursorColor: VanillaColorScheme.dark,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  labelStyle: Theme.of(context).textTheme.caption?.copyWith(
-                        color: VanillaColorScheme.black.withOpacity(0.4),
-                      ),
-                  filled: true,
-                  fillColor: VanillaColorScheme.light,
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.error,
-                      width: 0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                obscureText: true,
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                      color: VanillaColorScheme.black,
-                    ),
-                cursorColor: VanillaColorScheme.dark,
-                decoration: InputDecoration(
-                  labelText: "Senha",
-                  labelStyle: Theme.of(context).textTheme.caption?.copyWith(
-                        color: VanillaColorScheme.black.withOpacity(0.4),
-                      ),
-                  filled: true,
-                  fillColor: VanillaColorScheme.light,
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.error,
-                      width: 0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(
-                      color: VanillaColorScheme.light,
-                      width: 0,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: [
-                  Text(
-                    "Já tem uma conta?",
-                    style: Theme.of(context).textTheme.caption?.copyWith(
-                          color: VanillaColorScheme.medium,
-                        ),
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      "Entre",
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.secondary,
-                          ),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: TextButton(
-                      onPressed: () {},
-                      child: RichText(
-                        text: TextSpan(
-                            text: "Eu concordo com os ",
-                            style: Theme.of(context).textTheme.caption,
-                            children: [
-                              TextSpan(
-                                text: "Termos de Uso",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption
-                                    ?.copyWith(
-                                      color: VanillaColorScheme.secondary,
+                      const SizedBox(height: 32),
+                      form(context),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Text(
+                            "Já tem uma conta?",
+                            style:
+                                Theme.of(context).textTheme.caption?.copyWith(
+                                      color: VanillaColorScheme.medium,
                                     ),
-                              ),
-                            ]),
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Entre",
+                              style:
+                                  Theme.of(context).textTheme.caption?.copyWith(
+                                        color: VanillaColorScheme.secondary,
+                                      ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Flexible(
+                            child: TextButton(
+                              onPressed: () {},
+                              child: RichText(
+                                text: TextSpan(
+                                    text: "Eu concordo com os ",
+                                    style: Theme.of(context).textTheme.caption,
+                                    children: [
+                                      TextSpan(
+                                        text: "Termos de Uso",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .caption
+                                            ?.copyWith(
+                                              color:
+                                                  VanillaColorScheme.secondary,
+                                            ),
+                                      ),
+                                    ]),
+                              ),
+                            ),
+                          ),
+                          VanillaActionButton(
+                            title: "Continuar",
+                            onPressed: () {},
+                            colorScheme: Brightness.dark,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                  VanillaActionButton(
-                    title: "Continuar",
-                    onPressed: () {},
-                    colorScheme: Brightness.dark,
-                  ),
-                ],
+                ),
               ),
-            ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  Column form(BuildContext context) {
+    return Column(
+      children: [
+        TextField(
+          keyboardType: TextInputType.name,
+          style: Theme.of(context).textTheme.caption?.copyWith(
+                color: VanillaColorScheme.black,
+              ),
+          cursorColor: VanillaColorScheme.dark,
+          decoration: InputDecoration(
+            // errorText: "",
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.error,
+                width: 0,
+              ),
+            ),
+            labelText: "Nome",
+            labelStyle: Theme.of(context).textTheme.caption?.copyWith(
+                  color: VanillaColorScheme.black.withOpacity(0.4),
+                ),
+            filled: true,
+            fillColor: VanillaColorScheme.light,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.error,
+                width: 0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
           ),
         ),
-      ),
+        const SizedBox(height: 8),
+        TextField(
+          keyboardType: TextInputType.emailAddress,
+          style: Theme.of(context).textTheme.caption?.copyWith(
+                color: VanillaColorScheme.black,
+              ),
+          cursorColor: VanillaColorScheme.dark,
+          decoration: InputDecoration(
+            labelText: "Email",
+            labelStyle: Theme.of(context).textTheme.caption?.copyWith(
+                  color: VanillaColorScheme.black.withOpacity(0.4),
+                ),
+            filled: true,
+            fillColor: VanillaColorScheme.light,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.error,
+                width: 0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 8),
+        TextField(
+          obscureText: true,
+          style: Theme.of(context).textTheme.caption?.copyWith(
+                color: VanillaColorScheme.black,
+              ),
+          cursorColor: VanillaColorScheme.dark,
+          decoration: InputDecoration(
+            labelText: "Senha",
+            labelStyle: Theme.of(context).textTheme.caption?.copyWith(
+                  color: VanillaColorScheme.black.withOpacity(0.4),
+                ),
+            filled: true,
+            fillColor: VanillaColorScheme.light,
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.error,
+                width: 0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8),
+              borderSide: BorderSide(
+                color: VanillaColorScheme.light,
+                width: 0,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Row socialLoginButtons() {
+    return Row(
+      children: [
+        MaterialButton(
+          onPressed: () {},
+          padding: EdgeInsets.zero,
+          minWidth: 0,
+          child: CircleAvatar(
+            radius: 24,
+            backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
+            foregroundColor: VanillaColorScheme.black,
+            child: Image.asset(
+              "assets/icons/apple.png",
+              height: 20,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        MaterialButton(
+          onPressed: () {},
+          padding: EdgeInsets.zero,
+          minWidth: 0,
+          child: CircleAvatar(
+            radius: 24,
+            backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
+            foregroundColor: VanillaColorScheme.black,
+            child: Image.asset(
+              "assets/icons/google.png",
+              height: 20,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
+        MaterialButton(
+          onPressed: () {},
+          padding: EdgeInsets.zero,
+          minWidth: 0,
+          child: CircleAvatar(
+            radius: 24,
+            backgroundColor: VanillaColorScheme.medium.withOpacity(0.2),
+            foregroundColor: VanillaColorScheme.black,
+            child: Image.asset(
+              "assets/icons/facebook.png",
+              height: 20,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
