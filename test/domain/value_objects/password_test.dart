@@ -25,5 +25,11 @@ void main() {
     test("Should returns an instance if password lenght has 8 characters", () {
       expect(Password("12345678"), isA<Password>());
     });
+
+    test(
+        "Should returns an instance if password lenght is longer than 8 characters",
+        () {
+      expect(Password("123456789#"), isA<Password>());
+    });
   });
 }
