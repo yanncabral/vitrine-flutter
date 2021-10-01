@@ -8,5 +8,8 @@ void main() {
     test("Should returns ValidationError if data is an empty string", () {
       expect(sut(""), ValidationError.empty);
     });
+    test("Should returns null if data isn't an empty string", () {
+      expect(sut("test string"), null);
+    });
   });
 }
