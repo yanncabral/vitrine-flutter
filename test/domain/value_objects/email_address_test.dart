@@ -28,5 +28,14 @@ void main() {
       expect(EmailAddress(faker.internet.freeEmail()), isA<EmailAddress>());
       expect(EmailAddress(faker.internet.safeEmail()), isA<EmailAddress>());
     });
+    test(
+        "Should returns true if two emails are equals and false if its are different",
+        () {
+      final one = EmailAddress("yann@gmail.com");
+      final two = EmailAddress("yann@gmail.com");
+      final three = EmailAddress(faker.internet.email());
+      expect(one == two, true);
+      expect(one == three, false);
+    });
   });
 }
