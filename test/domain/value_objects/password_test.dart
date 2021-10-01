@@ -18,9 +18,12 @@ class Password extends ValueObject<String> {
 void main() {
   group("Password", () {
     test(
-        "Should throws a ValidationError.tooShort if password is shorter then 6 characters",
+        "Should throws a ValidationError.tooShort if password is shorter then 8 characters",
         () {
       expect(() => Password("1234"), throwsA(ValidationError.tooShort));
+    });
+    test("Should returns an instance if password lenght has 8 characters", () {
+      expect(Password("12345678"), isA<Password>());
     });
   });
 }
