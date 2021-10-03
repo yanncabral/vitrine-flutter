@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
@@ -11,6 +12,7 @@ class _SignUpState {
   Either<ValidationError, PersonName>? nameState;
   Either<ValidationError, EmailAddress>? emailState;
   Either<ValidationError, Password>? passwordState;
+  DomainError? formError;
   bool isLoading = false;
   bool get isFormValid => [
         nameState,
@@ -32,6 +34,10 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   Stream<Either<ValidationError, Password>?> get passwordState =>
       _stateController.stream.map((state) => state.passwordState).distinct();
   @override
+  Stream<DomainError?> get formError =>
+      _stateController.stream.map((state) => state.formError).distinct();
+
+  @override
   Stream<bool> get isLoadingState =>
       _stateController.stream.map((state) => state.isLoading).distinct();
   @override
@@ -46,6 +52,7 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   @override
   void onNameChange(String value) {
     _setState(() {
+      _state.formError = null;
       try {
         _state.nameState = Right(PersonName(value));
       } on ValidationError catch (validationError) {
@@ -57,6 +64,7 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   @override
   void onEmailChange(String value) {
     _setState(() {
+      _state.formError = null;
       try {
         _state.emailState = Right(EmailAddress(value));
       } on ValidationError catch (validationError) {
@@ -68,6 +76,7 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   @override
   void onPasswordChange(String value) {
     _setState(() {
+      _state.formError = null;
       try {
         _state.passwordState = Right(Password(value));
       } on ValidationError catch (validationError) {
