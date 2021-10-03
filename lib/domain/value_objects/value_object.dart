@@ -6,6 +6,8 @@ import 'package:vitrine/domain/validation/validator.dart';
 abstract class ValueObject<T> extends Equatable {
   final T _data;
 
+  T call() => _data;
+
   @override
   List<T> get props => [_data];
 
