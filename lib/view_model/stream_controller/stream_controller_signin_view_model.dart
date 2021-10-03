@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:vitrine/data/authentication/authentication_service.dart';
+import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
@@ -11,6 +12,7 @@ import 'package:vitrine/domain/view_models/signin_view_model.dart';
 class _SignInState {
   Either<ValidationError, EmailAddress>? emailState;
   Either<ValidationError, Password>? passwordState;
+  DomainError? formError;
   bool isLoading = false;
   bool get isFormValid => [
         emailState,
@@ -34,6 +36,9 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   @override
   Stream<bool> get isFormValidState =>
       _stateController.stream.map((state) => state.isFormValid).distinct();
+
+  Stream<DomainError?> get formError =>
+      _stateController.stream.map((state) => state.formError).distinct();
 
   @protected
   void setState(void Function() body) {
@@ -71,12 +76,15 @@ class StreamControllerSignInViewModel implements SignInViewModel {
     final email = _state.emailState?.fold((l) => null, (r) => r);
     final password = _state.passwordState?.fold((l) => null, (r) => r);
     if (email != null && password != null) {
-      await loginWithEmailAndPassword.loginWith(
+      final result = await loginWithEmailAndPassword.loginWith(
         email: email,
         password: password,
       );
       setState(() {
         _state.isLoading = false;
+        result.fold((error) {
+          _state.formError = error;
+        }, (result) => null);
       });
     }
   }
