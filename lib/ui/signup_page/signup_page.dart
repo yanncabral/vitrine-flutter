@@ -5,9 +5,9 @@ import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/domain/value_objects/person_name.dart';
+import 'package:vitrine/main/factory/domain/signup_view_model_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
-import 'package:vitrine/view_model/stream_controller/stream_controller_signup_view_model.dart';
 
 class SignUpPage extends StatefulWidget {
   @override
@@ -15,7 +15,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  final _presenter = StreamControllerSignUpViewModel();
+  final _presenter = SignUpViewModelFactory.factory;
   late ScrollController _scrollController;
   bool isScrolledDown = true;
 
