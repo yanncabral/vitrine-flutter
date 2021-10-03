@@ -4,10 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 import 'package:vitrine/data/authentication/authentication_service.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
+import 'package:vitrine/domain/usecases/login_with_email_and_password_usecase.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/domain/view_models/signin_view_model.dart';
+import 'package:vitrine/main/factory/domain/usecases/login_with_email_and_password_usecase_factory.dart';
 
 class _SignInState {
   Either<ValidationError, EmailAddress>? emailState;
@@ -21,7 +23,8 @@ class _SignInState {
 }
 
 class StreamControllerSignInViewModel implements SignInViewModel {
-  final loginWithEmailAndPassword = AuthenticationService();
+  final loginWithEmailAndPassword =
+      LoginWithEmailAndPasswordUsecaseFactory.factory;
   final _stateController = StreamController<_SignInState>.broadcast();
 
   @override
