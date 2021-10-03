@@ -9,7 +9,7 @@ class EmailValidatorMock extends Mock implements EmailValidator {}
 void main() {
   final faker = Faker();
   group("EmailAddress", () {
-    test("Should call all validators", () {
+    test("Should call first validator", () {
       // arrange
       final emailValidator = EmailValidatorMock();
       final fakeEmail = faker.internet.email();
@@ -21,7 +21,7 @@ void main() {
         validators: [emailValidator],
       );
       // assert
-      expect(result, null);
+      expect(result, isA<EmailAddress>());
       verify(() => emailValidator.call(fakeEmail)).called(1);
     });
     test(
