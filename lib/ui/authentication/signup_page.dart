@@ -20,78 +20,90 @@ class SignUpPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Registrar",
-          style: Theme.of(context)
-              .textTheme
-              .headline2
-              ?.copyWith(color: VanillaColorScheme.black),
-        ),
-        const SizedBox(height: 32),
-        socialLoginButtons(),
-        const SizedBox(height: 32),
-        Text(
-          "Ou com email",
-          style: Theme.of(context)
-              .textTheme
-              .bodyText1
-              ?.copyWith(color: VanillaColorScheme.medium),
-        ),
-        const SizedBox(height: 32),
-        form(context),
-        const SizedBox(height: 8),
-        Row(
-          children: [
-            Text(
-              "Já tem uma conta?",
-              style: Theme.of(context).textTheme.caption?.copyWith(
-                    color: VanillaColorScheme.medium,
-                  ),
-            ),
-            TextButton(
-              onPressed: onSwitchPress,
-              child: Text(
-                "Entre",
-                style: Theme.of(context).textTheme.caption?.copyWith(
-                      color: VanillaColorScheme.secondary,
-                    ),
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Registrar",
+                style: Theme.of(context)
+                    .textTheme
+                    .headline2
+                    ?.copyWith(color: VanillaColorScheme.black),
               ),
-            ),
-          ],
+              const SizedBox(height: 32),
+              socialLoginButtons(),
+              const SizedBox(height: 32),
+              Text(
+                "Ou com email",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.copyWith(color: VanillaColorScheme.medium),
+              ),
+              const SizedBox(height: 32),
+              form(context),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Text(
+                    "Já tem uma conta?",
+                    style: Theme.of(context).textTheme.caption?.copyWith(
+                          color: VanillaColorScheme.medium,
+                        ),
+                  ),
+                  TextButton(
+                    onPressed: onSwitchPress,
+                    child: Text(
+                      "Entre",
+                      style: Theme.of(context).textTheme.caption?.copyWith(
+                            color: VanillaColorScheme.secondary,
+                          ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         const Spacer(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: TextButton(
-                onPressed: () {},
-                child: RichText(
-                  text: TextSpan(
-                      text: "Eu concordo com os ",
-                      style: Theme.of(context).textTheme.caption,
-                      children: [
-                        TextSpan(
-                          text: "Termos de Uso",
-                          style: Theme.of(context).textTheme.caption?.copyWith(
-                                color: VanillaColorScheme.secondary,
-                              ),
-                        ),
-                      ]),
+        Padding(
+          padding: const EdgeInsets.all(32.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: TextButton(
+                  onPressed: () {},
+                  child: RichText(
+                    text: TextSpan(
+                        text: "Eu concordo com os ",
+                        style: Theme.of(context).textTheme.caption,
+                        children: [
+                          TextSpan(
+                            text: "Termos de Uso",
+                            style:
+                                Theme.of(context).textTheme.caption?.copyWith(
+                                      color: VanillaColorScheme.secondary,
+                                    ),
+                          ),
+                        ]),
+                  ),
                 ),
               ),
-            ),
-            StreamBuilder<bool>(
-                stream: _presenter.isLoadingState,
-                builder: (context, snapshot) {
-                  return VanillaActionButton(
-                    title:
-                        snapshot.data == true ? "Carregando..." : "Continuar",
-                    onPressed: _presenter.submit,
-                    colorScheme: Brightness.dark,
-                  );
-                }),
-          ],
+              StreamBuilder<bool>(
+                  stream: _presenter.isLoadingState,
+                  builder: (context, snapshot) {
+                    return VanillaActionButton(
+                      title:
+                          snapshot.data == true ? "Carregando..." : "Continuar",
+                      onPressed: _presenter.submit,
+                      colorScheme: Brightness.dark,
+                    );
+                  }),
+            ],
+          ),
         ),
       ],
     );
