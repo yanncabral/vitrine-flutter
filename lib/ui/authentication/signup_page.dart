@@ -314,7 +314,7 @@ class SignUpPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     return TextField(
                       enabled: !(loadingSnapshot.data == true),
-                      onEditingComplete: () => FocusScope.of(context).unfocus,
+                      onEditingComplete: FocusScope.of(context).unfocus,
                       onChanged: _presenter.onPasswordChange,
                       obscureText: true,
                       style: Theme.of(context).textTheme.caption?.copyWith(
