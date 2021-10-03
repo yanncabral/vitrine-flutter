@@ -5,7 +5,7 @@ import 'package:vitrine/validation/email_validator.dart';
 
 void main() {
   final faker = Faker();
-  final sut = EmailValidator();
+  const sut = EmailValidator();
   group("EmailValidator", () {
     test("Should returns a ValidationError if email is invalid", () {
       expect(sut("test"), ValidationError.invalid);
