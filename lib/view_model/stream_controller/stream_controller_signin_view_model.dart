@@ -37,6 +37,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   Stream<bool> get isFormValidState =>
       _stateController.stream.map((state) => state.isFormValid).distinct();
 
+  @override
   Stream<DomainError?> get formError =>
       _stateController.stream.map((state) => state.formError).distinct();
 
