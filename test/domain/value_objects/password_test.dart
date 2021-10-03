@@ -1,5 +1,4 @@
 import 'package:test/test.dart';
-import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
 
 void main() {
