@@ -50,6 +50,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   @override
   void onEmailChange(String value) {
     setState(() {
+      _state.formError = null;
       try {
         _state.emailState = Right(EmailAddress(value));
       } on ValidationError catch (validationError) {
@@ -61,6 +62,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   @override
   void onPasswordChange(String value) {
     setState(() {
+      _state.formError = null;
       try {
         _state.passwordState = Right(Password(value));
       } on ValidationError catch (validationError) {
