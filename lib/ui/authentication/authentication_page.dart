@@ -67,25 +67,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
             constraints: BoxConstraints(minHeight: constraint.maxHeight),
             child: IntrinsicHeight(
               child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 200),
-                    child:
-                        currentAuthenticationPage == _AuthenticationPage.signIn
-                            ? SignInPage(
-                                onSwitchPress: () => setState(() {
-                                  currentAuthenticationPage =
-                                      _AuthenticationPage.signUp;
-                                }),
-                              )
-                            : SignUpPage(
-                                onSwitchPress: () => setState(() {
-                                  currentAuthenticationPage =
-                                      _AuthenticationPage.signIn;
-                                }),
-                              ),
-                  ),
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  child: currentAuthenticationPage == _AuthenticationPage.signIn
+                      ? SignInPage(
+                          onSwitchPress: () => setState(() {
+                            currentAuthenticationPage =
+                                _AuthenticationPage.signUp;
+                          }),
+                        )
+                      : SignUpPage(
+                          onSwitchPress: () => setState(() {
+                            currentAuthenticationPage =
+                                _AuthenticationPage.signIn;
+                          }),
+                        ),
                 ),
               ),
             ),
