@@ -7,6 +7,7 @@ import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/domain/value_objects/person_name.dart';
 import 'package:vitrine/domain/view_models/signup_view_model.dart';
+import 'package:vitrine/main/factory/domain/usecases/register_with_email_and_password_factory.dart';
 
 class _SignUpState {
   Either<ValidationError, PersonName>? nameState;
@@ -22,6 +23,8 @@ class _SignUpState {
 }
 
 class StreamControllerSignUpViewModel implements SignUpViewModel {
+  final registerWithEmailAndPassword =
+      RegisterWithEmailAndPasswordFactory.factory;
   final _stateController = StreamController<_SignUpState>.broadcast();
 
   @override
@@ -86,11 +89,26 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   }
 
   @override
-  void submit() {
+  Future<void> submit() async {
     _setState(() {
       _state.isLoading = true;
-      _state.isLoading = false;
     });
+    final name = _state.nameState?.fold((l) => null, (r) => r);
+    final email = _state.emailState?.fold((l) => null, (r) => r);
+    final password = _state.passwordState?.fold((l) => null, (r) => r);
+    if (name != null && email != null && password != null) {
+      final result = await registerWithEmailAndPassword.registerWith(
+        name: name,
+        email: email,
+        password: password,
+      );
+      _setState(() {
+        _state.isLoading = false;
+        result.fold((error) {
+          _state.formError = error;
+        }, (r) => null);
+      });
+    }
   }
 
   final _SignUpState _state = _SignUpState();
