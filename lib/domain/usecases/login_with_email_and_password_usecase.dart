@@ -4,6 +4,6 @@ import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
 
 abstract class LoginWithEmailAndPasswordUsecase {
-  Either<DomainError, void> loginWith(
+  Future<Either<DomainError, Unit>> loginWith(
       {required EmailAddress email, required Password password});
 }
