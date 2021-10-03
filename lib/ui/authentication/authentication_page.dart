@@ -3,6 +3,11 @@ import 'package:vitrine/ui/authentication/signin_page.dart';
 import 'package:vitrine/ui/authentication/signup_page.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
+enum _AuthenticationPage {
+  signIn,
+  signUp,
+}
+
 class AuthenticationPage extends StatefulWidget {
   @override
   State<AuthenticationPage> createState() => _AuthenticationPageState();
@@ -11,6 +16,7 @@ class AuthenticationPage extends StatefulWidget {
 class _AuthenticationPageState extends State<AuthenticationPage> {
   late ScrollController _scrollController;
   bool isScrolledDown = true;
+  _AuthenticationPage currentAuthenticationPage = _AuthenticationPage.signIn;
 
   @override
   void initState() {
@@ -63,7 +69,23 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(32),
-                  child: SignInPage(),
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child:
+                        currentAuthenticationPage == _AuthenticationPage.signIn
+                            ? SignInPage(
+                                onSwitchPress: () => setState(() {
+                                  currentAuthenticationPage =
+                                      _AuthenticationPage.signUp;
+                                }),
+                              )
+                            : SignUpPage(
+                                onSwitchPress: () => setState(() {
+                                  currentAuthenticationPage =
+                                      _AuthenticationPage.signIn;
+                                }),
+                              ),
+                  ),
                 ),
               ),
             ),

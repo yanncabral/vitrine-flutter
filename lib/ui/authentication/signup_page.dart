@@ -10,7 +10,10 @@ import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class SignUpPage extends StatelessWidget {
+  final void Function() onSwitchPress;
   final _presenter = SignUpViewModelFactory.factory;
+
+  SignUpPage({Key? key, required this.onSwitchPress}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +49,7 @@ class SignUpPage extends StatelessWidget {
                   ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: onSwitchPress,
               child: Text(
                 "Entre",
                 style: Theme.of(context).textTheme.caption?.copyWith(

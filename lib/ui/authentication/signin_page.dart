@@ -8,7 +8,10 @@ import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class SignInPage extends StatelessWidget {
+  final void Function() onSwitchPress;
   final _presenter = SignInViewModelFactory.factory;
+
+  SignInPage({Key? key, required this.onSwitchPress}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -43,7 +46,7 @@ class SignInPage extends StatelessWidget {
                   ),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: onSwitchPress,
               child: Text(
                 "Cadastre-se",
                 style: Theme.of(context).textTheme.caption?.copyWith(
