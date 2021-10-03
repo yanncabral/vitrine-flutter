@@ -4,6 +4,7 @@ import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/usecases/login_with_email_and_password_usecase.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
+import 'package:vitrine/infra/firebase_errors.dart';
 
 class AuthenticationService implements LoginWithEmailAndPasswordUsecase {
   @override
@@ -17,8 +18,8 @@ class AuthenticationService implements LoginWithEmailAndPasswordUsecase {
         password: password(),
       );
       return const Right(unit);
-    } on FirebaseAuthException catch (_) {
-      return const Left(DomainError.unexpected);
+    } on FirebaseAuthException catch (e) {
+      return Left(e.toDomain());
     }
   }
 }
