@@ -9,158 +9,88 @@ import 'package:vitrine/main/factory/domain/view_models/signup_view_model_factor
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
-class SignUpPage extends StatefulWidget {
-  @override
-  State<SignUpPage> createState() => _SignUpPageState();
-}
-
-class _SignUpPageState extends State<SignUpPage> {
+class SignUpPage extends StatelessWidget {
   final _presenter = SignUpViewModelFactory.factory;
-  late ScrollController _scrollController;
-  bool isScrolledDown = true;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController()
-      ..addListener(() {
-        final newIsScrolledDown = _scrollController.offset <= 0;
-        if (newIsScrolledDown != isScrolledDown) {
-          setState(() {
-            isScrolledDown = newIsScrolledDown;
-          });
-        }
-      });
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      appBar: AppBar(
-        elevation: isScrolledDown ? 0 : 3,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        automaticallyImplyLeading: false,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0),
-            child: CircleAvatar(
-              backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
-              child: IconButton(
-                color: VanillaColorScheme.black,
-                onPressed: Navigator.of(context).pop,
-                icon: const Icon(Icons.close),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Registrar",
+          style: Theme.of(context)
+              .textTheme
+              .headline2
+              ?.copyWith(color: VanillaColorScheme.black),
+        ),
+        const SizedBox(height: 32),
+        socialLoginButtons(),
+        const SizedBox(height: 32),
+        Text(
+          "Ou com email",
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1
+              ?.copyWith(color: VanillaColorScheme.medium),
+        ),
+        const SizedBox(height: 32),
+        form(context),
+        const SizedBox(height: 8),
+        Row(
+          children: [
+            Text(
+              "Já tem uma conta?",
+              style: Theme.of(context).textTheme.caption?.copyWith(
+                    color: VanillaColorScheme.medium,
+                  ),
+            ),
+            TextButton(
+              onPressed: () {},
+              child: Text(
+                "Entre",
+                style: Theme.of(context).textTheme.caption?.copyWith(
+                      color: VanillaColorScheme.secondary,
+                    ),
               ),
             ),
-          ),
-        ],
-      ),
-      body: LayoutBuilder(builder: (context, constraint) {
-        return SingleChildScrollView(
-          controller: _scrollController,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraint.maxHeight),
-            child: IntrinsicHeight(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Registrar",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline2
-                            ?.copyWith(color: VanillaColorScheme.black),
-                      ),
-                      const SizedBox(height: 32),
-                      socialLoginButtons(),
-                      const SizedBox(height: 32),
-                      Text(
-                        "Ou com email",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyText1
-                            ?.copyWith(color: VanillaColorScheme.medium),
-                      ),
-                      const SizedBox(height: 32),
-                      form(context),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          Text(
-                            "Já tem uma conta?",
-                            style:
-                                Theme.of(context).textTheme.caption?.copyWith(
-                                      color: VanillaColorScheme.medium,
-                                    ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "Entre",
-                              style:
-                                  Theme.of(context).textTheme.caption?.copyWith(
-                                        color: VanillaColorScheme.secondary,
-                                      ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            child: TextButton(
-                              onPressed: () {},
-                              child: RichText(
-                                text: TextSpan(
-                                    text: "Eu concordo com os ",
-                                    style: Theme.of(context).textTheme.caption,
-                                    children: [
-                                      TextSpan(
-                                        text: "Termos de Uso",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .caption
-                                            ?.copyWith(
-                                              color:
-                                                  VanillaColorScheme.secondary,
-                                            ),
-                                      ),
-                                    ]),
+          ],
+        ),
+        const Spacer(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: TextButton(
+                onPressed: () {},
+                child: RichText(
+                  text: TextSpan(
+                      text: "Eu concordo com os ",
+                      style: Theme.of(context).textTheme.caption,
+                      children: [
+                        TextSpan(
+                          text: "Termos de Uso",
+                          style: Theme.of(context).textTheme.caption?.copyWith(
+                                color: VanillaColorScheme.secondary,
                               ),
-                            ),
-                          ),
-                          StreamBuilder<bool>(
-                              stream: _presenter.isLoadingState,
-                              builder: (context, snapshot) {
-                                return VanillaActionButton(
-                                  title: snapshot.data == true
-                                      ? "Carregando..."
-                                      : "Continuar",
-                                  onPressed: _presenter.submit,
-                                  colorScheme: Brightness.dark,
-                                );
-                              }),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ]),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+            StreamBuilder<bool>(
+                stream: _presenter.isLoadingState,
+                builder: (context, snapshot) {
+                  return VanillaActionButton(
+                    title:
+                        snapshot.data == true ? "Carregando..." : "Continuar",
+                    onPressed: _presenter.submit,
+                    colorScheme: Brightness.dark,
+                  );
+                }),
+          ],
+        ),
+      ],
     );
   }
 
