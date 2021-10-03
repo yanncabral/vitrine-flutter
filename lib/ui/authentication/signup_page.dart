@@ -1,6 +1,6 @@
-import 'package:dartz/dartz.dart' show Either;
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
@@ -8,18 +8,29 @@ import 'package:vitrine/domain/value_objects/person_name.dart';
 import 'package:vitrine/main/factory/domain/view_models/signup_view_model_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/util/domain_error_messages.dart';
 
 class SignUpPage extends StatelessWidget {
   final void Function() onSwitchPress;
   final _presenter = SignUpViewModelFactory.factory;
 
   SignUpPage({Key? key, required this.onSwitchPress}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        StreamBuilder<bool>(
+            stream: _presenter.isLoadingState,
+            builder: (context, isLoadingSnapshot) {
+              return isLoadingSnapshot.data == true
+                  ? LinearProgressIndicator(
+                      color: VanillaColorScheme.secondary,
+                      backgroundColor:
+                          VanillaColorScheme.secondary.withOpacity(0.4),
+                    )
+                  : const SizedBox(height: 4);
+            }),
         Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
@@ -64,6 +75,21 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ],
               ),
+              StreamBuilder<DomainError?>(
+                  stream: _presenter.formError,
+                  builder: (context, snapshot) {
+                    if (snapshot.data != null) {
+                      return ListTile(
+                        leading: const Icon(
+                          Icons.close,
+                          color: Colors.red,
+                        ),
+                        title: Text(snapshot.data!.message()),
+                      );
+                    } else {
+                      return const SizedBox(height: 0);
+                    }
+                  }),
             ],
           ),
         ),
@@ -92,14 +118,26 @@ class SignUpPage extends StatelessWidget {
                   ),
                 ),
               ),
-              StreamBuilder<bool>(
-                  stream: _presenter.isLoadingState,
-                  builder: (context, snapshot) {
-                    return VanillaActionButton(
-                      title:
-                          snapshot.data == true ? "Carregando..." : "Continuar",
-                      onPressed: _presenter.submit,
-                      colorScheme: Brightness.dark,
+              StreamBuilder<DomainError?>(
+                  stream: _presenter.formError,
+                  builder: (context, formErrorSnapshot) {
+                    return StreamBuilder<bool?>(
+                      stream: _presenter.isFormValidState,
+                      builder: (context, formValidSnapshot) {
+                        return StreamBuilder<bool>(
+                          stream: _presenter.isLoadingState,
+                          builder: (context, snapshot) {
+                            return VanillaActionButton(
+                              title: "Continuar",
+                              enabled: snapshot.data != true &&
+                                  formValidSnapshot.data == true &&
+                                  formErrorSnapshot.data == null,
+                              onPressed: _presenter.submit,
+                              colorScheme: Brightness.dark,
+                            );
+                          },
+                        );
+                      },
                     );
                   }),
             ],
@@ -109,7 +147,7 @@ class SignUpPage extends StatelessWidget {
     );
   }
 
-  StreamBuilder<bool> form(BuildContext context) {
+  Widget form(BuildContext context) {
     return StreamBuilder<bool>(
         stream: _presenter.isLoadingState,
         builder: (context, loadingSnapshot) {
@@ -121,6 +159,7 @@ class SignUpPage extends StatelessWidget {
                     return TextField(
                       enabled: !(loadingSnapshot.data == true),
                       textCapitalization: TextCapitalization.words,
+                      textInputAction: TextInputAction.next,
                       onChanged: _presenter.onNameChange,
                       keyboardType: TextInputType.name,
                       style: Theme.of(context).textTheme.caption?.copyWith(
@@ -135,6 +174,13 @@ class SignUpPage extends StatelessWidget {
                             width: 0,
                           ),
                         ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                            color: VanillaColorScheme.error,
+                            width: 0,
+                          ),
+                        ),
                         errorText: snapshot.data?.fold(
                           (l) {
                             switch (l) {
@@ -144,16 +190,11 @@ class SignUpPage extends StatelessWidget {
                                 return "Seu nome está curto demais.";
                               case ValidationError.invalid:
                                 return "Esse nome é inválido.";
+                              default:
+                                return null;
                             }
                           },
                           (r) => null,
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
                         ),
                         labelText: "Nome",
                         labelStyle: Theme.of(context)
@@ -268,10 +309,7 @@ class SignUpPage extends StatelessWidget {
                   builder: (context, snapshot) {
                     return TextField(
                       enabled: !(loadingSnapshot.data == true),
-                      onEditingComplete: () {
-                        _presenter.submit();
-                        FocusScope.of(context).unfocus();
-                      },
+                      onEditingComplete: () => FocusScope.of(context).unfocus,
                       onChanged: _presenter.onPasswordChange,
                       obscureText: true,
                       style: Theme.of(context).textTheme.caption?.copyWith(

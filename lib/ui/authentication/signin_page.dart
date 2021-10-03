@@ -117,20 +117,37 @@ class SignInPage extends StatelessWidget {
                   ),
                 ),
               ),
-              StreamBuilder<bool>(
-                  stream: _presenter.isLoadingState,
-                  builder: (context, snapshot) {
-                    return VanillaActionButton(
-                      title: "Continuar",
-                      enabled: snapshot.data != true,
-                      onPressed: _presenter.submit,
-                      colorScheme: Brightness.dark,
-                    );
-                  }),
+              actionButton(),
             ],
           ),
         ),
       ],
+    );
+  }
+
+  StreamBuilder<DomainError?> actionButton() {
+    return StreamBuilder<DomainError?>(
+      stream: _presenter.formError,
+      builder: (context, formErrorSnapshot) {
+        return StreamBuilder<bool?>(
+          stream: _presenter.isFormValidState,
+          builder: (context, formValidSnapshot) {
+            return StreamBuilder<bool>(
+              stream: _presenter.isLoadingState,
+              builder: (context, snapshot) {
+                return VanillaActionButton(
+                  title: "Continuar",
+                  enabled: snapshot.data != true &&
+                      formValidSnapshot.data == true &&
+                      formErrorSnapshot.data == null,
+                  onPressed: _presenter.submit,
+                  colorScheme: Brightness.dark,
+                );
+              },
+            );
+          },
+        );
+      },
     );
   }
 
