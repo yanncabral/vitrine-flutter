@@ -25,6 +25,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       routes: {
         '/auth': (context) => AuthenticationPage(),
+        '/home': (context) => HomePage(),
       },
       home: FutureBuilder(
         future: _initialization,
