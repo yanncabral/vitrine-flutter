@@ -89,6 +89,7 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   void submit() {
     _setState(() {
       _state.isLoading = true;
+      _state.isLoading = false;
     });
   }
 
