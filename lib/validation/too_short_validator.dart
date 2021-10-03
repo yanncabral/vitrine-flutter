@@ -4,11 +4,8 @@ import 'package:vitrine/domain/validation/validator.dart';
 class TooShortValidator implements Validator<String> {
   final int minimumLenght;
 
-  TooShortValidator({required this.minimumLenght}) {
-    if (minimumLenght.isNegative) {
-      throw RangeError.value(minimumLenght);
-    }
-  }
+  TooShortValidator({required this.minimumLenght})
+      : assert(!minimumLenght.isNegative);
 
   @override
   ValidationError? call(String value) {
