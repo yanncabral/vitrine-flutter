@@ -2,9 +2,7 @@ import 'dart:async';
 
 import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
-import 'package:vitrine/data/authentication/authentication_service.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
-import 'package:vitrine/domain/usecases/login_with_email_and_password_usecase.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
