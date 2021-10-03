@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:dartz/dartz.dart';
+import 'package:meta/meta.dart';
+import 'package:vitrine/data/authentication/authentication_service.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
 import 'package:vitrine/domain/value_objects/password.dart';
@@ -17,6 +19,7 @@ class _SignInState {
 }
 
 class StreamControllerSignInViewModel implements SignInViewModel {
+  final loginWithEmailAndPassword = AuthenticationService();
   final _stateController = StreamController<_SignInState>.broadcast();
 
   @override
@@ -32,14 +35,15 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   Stream<bool> get isFormValidState =>
       _stateController.stream.map((state) => state.isFormValid).distinct();
 
-  void _setState(void Function() body) {
+  @protected
+  void setState(void Function() body) {
     body();
     _stateController.add(_state);
   }
 
   @override
   void onEmailChange(String value) {
-    _setState(() {
+    setState(() {
       try {
         _state.emailState = Right(EmailAddress(value));
       } on ValidationError catch (validationError) {
@@ -50,7 +54,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
 
   @override
   void onPasswordChange(String value) {
-    _setState(() {
+    setState(() {
       try {
         _state.passwordState = Right(Password(value));
       } on ValidationError catch (validationError) {
@@ -60,10 +64,21 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   }
 
   @override
-  void submit() {
-    _setState(() {
+  Future<void> submit() async {
+    setState(() {
       _state.isLoading = true;
     });
+    final email = _state.emailState?.fold((l) => null, (r) => r);
+    final password = _state.passwordState?.fold((l) => null, (r) => r);
+    if (email != null && password != null) {
+      await loginWithEmailAndPassword.loginWith(
+        email: email,
+        password: password,
+      );
+      setState(() {
+        _state.isLoading = false;
+      });
+    }
   }
 
   final _state = _SignInState();
