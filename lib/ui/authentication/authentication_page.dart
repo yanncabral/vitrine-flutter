@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine/ui/authentication/signin_page.dart';
 import 'package:vitrine/ui/authentication/signup_page.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
@@ -62,7 +63,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               child: SafeArea(
                 child: Padding(
                   padding: const EdgeInsets.all(32),
-                  child: SignUpPage(),
+                  child: SignInPage(),
                 ),
               ),
             ),
