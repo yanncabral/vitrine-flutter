@@ -12,7 +12,7 @@ class PersonName extends ValueObject<String> {
 
   @override
   List<Validator> get validators => [
-        NotEmptyValidator(),
+        const NotEmptyValidator(),
         TooShortValidator(minimumLenght: 2),
       ];
 }
