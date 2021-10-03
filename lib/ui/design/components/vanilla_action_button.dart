@@ -17,19 +17,19 @@ class VanillaActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 180,
-      alignment: Alignment.center,
-      clipBehavior: Clip.hardEdge,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30),
-        color: colorScheme == Brightness.light
-            ? Colors.white
-            : VanillaColorScheme.dark,
-      ),
-      child: AnimatedOpacity(
-        duration: const Duration(milliseconds: 200),
-        opacity: enabled ? 1 : 0.4,
+    return AnimatedOpacity(
+      duration: const Duration(milliseconds: 200),
+      opacity: enabled ? 1 : 0.4,
+      child: Container(
+        width: 180,
+        alignment: Alignment.center,
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: colorScheme == Brightness.light
+              ? Colors.white
+              : VanillaColorScheme.dark,
+        ),
         child: content(context),
       ),
     );
