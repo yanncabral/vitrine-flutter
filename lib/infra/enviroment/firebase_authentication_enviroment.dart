@@ -24,11 +24,13 @@ class FirebaseAuthenticationEnviroment implements AuthenticationEnviroment {
 
   FirebaseAuthenticationEnviroment() {
     FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user == null) {
-        _state.authenticationState = AuthenticationState.loggedOut;
-      } else {
-        _state.authenticationState = AuthenticationState.loggedIn;
-      }
+      setState(() {
+        if (user == null) {
+          _state.authenticationState = AuthenticationState.loggedOut;
+        } else {
+          _state.authenticationState = AuthenticationState.loggedIn;
+        }
+      });
     });
   }
 }
