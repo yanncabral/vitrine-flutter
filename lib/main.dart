@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/data/enviroment/authentication/authentication_enviroment.dart';
 import 'package:vitrine/infra/enviroment/firebase_authentication_enviroment.dart';
+import 'package:vitrine/main/factory/enviroment/authentication_enviroment.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
 import 'package:vitrine/ui/home_page/home_page.dart';
@@ -19,7 +20,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   Future<FirebaseApp> get _initialization => Firebase.initializeApp();
-  late final authenticationEnviroment = FirebaseAuthenticationEnviroment();
+  late final authenticationEnviroment = AuthenticationEnviromentFactory.factory;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,6 @@ class _AppState extends State<App> {
             return StreamBuilder<AuthenticationState>(
                 stream: authenticationEnviroment.authenticationState,
                 builder: (context, snapshot) {
-                  print(snapshot.data);
                   return snapshot.data == AuthenticationState.loggedIn
                       ? HomePage()
                       : OnboardingPage();
