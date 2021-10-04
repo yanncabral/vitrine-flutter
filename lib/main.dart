@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/data/enviroment/authentication/authentication_enviroment.dart';
-import 'package:vitrine/infra/enviroment/firebase_authentication_enviroment.dart';
 import 'package:vitrine/main/factory/enviroment/authentication_enviroment.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
