@@ -1,4 +1,4 @@
-import 'package:vitrine/data/authentication/authentication_service.dart';
+import 'package:vitrine/data/services/authentication/authentication_service.dart';
 import 'package:vitrine/domain/usecases/login_with_email_and_password_usecase.dart';
 
 extension LoginWithEmailAndPasswordUsecaseFactory

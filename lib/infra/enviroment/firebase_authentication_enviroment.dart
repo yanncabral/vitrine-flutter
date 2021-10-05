@@ -5,10 +5,10 @@ import 'package:vitrine/data/enviroment/authentication/authentication_enviroment
 
 class FirebaseAuthenticationEnviroment implements AuthenticationEnviroment {
   @override
-  Stream<AuthenticationState> get authenticationState => FirebaseAuth.instance
-      .authStateChanges()
-      .map((user) => user == null
-          ? AuthenticationState.loggedOut
-          : AuthenticationState.loggedIn)
-      .distinct();
+  Stream<AuthenticationState> get authenticationState =>
+      FirebaseAuth.instance.authStateChanges().map((user) {
+        return user == null
+            ? AuthenticationState.loggedOut
+            : AuthenticationState.loggedIn;
+      }).distinct();
 }
