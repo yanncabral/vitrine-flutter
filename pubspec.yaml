@@ -16,6 +16,7 @@ dependencies:
   firebase_auth: ^3.0.2
   firebase_core: ^1.5.0
   firebase_storage: ^10.0.2
+  floating_bottom_navigation_bar: ^1.5.2
   flutter:
     sdk: flutter
   google_fonts: ^2.1.0
