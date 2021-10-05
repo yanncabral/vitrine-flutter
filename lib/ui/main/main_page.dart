@@ -25,11 +25,7 @@ class _MainPageState extends State<MainPage> {
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
-        titleTextStyle: Theme.of(context)
-            .textTheme
-            .headline3
-            ?.copyWith(color: Colors.black),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: VanillaColorScheme.light,
         foregroundColor: Colors.black,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
