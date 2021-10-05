@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vitrine/data/services/authentication/authentication_service.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/home_page/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
 
 class MainPage extends StatefulWidget {
@@ -55,37 +56,34 @@ class _MainPageState extends State<MainPage> {
         ],
       ),
       extendBody: true,
-      body: Container(
-        color: Colors.red,
-        child: PageView.builder(
-          onPageChanged: (int index) => setState(() {
-            _currentNavbarTab = BottomNavbarTabs.values[index];
-          }),
-          itemCount: BottomNavbarTabs.values.length,
-          controller: _pageController,
-          itemBuilder: (BuildContext context, int index) {
-            final _page = BottomNavbarTabs.values[index];
-            switch (_page) {
-              case BottomNavbarTabs.home:
-                return const Center(child: Text("Home"));
-              case BottomNavbarTabs.search:
-                return const Center(child: Text("Search"));
-              case BottomNavbarTabs.bag:
-                return const Center(child: Text("Bag"));
-              case BottomNavbarTabs.archived:
-                return const Center(child: Text("Archive"));
-              case BottomNavbarTabs.profile:
-                return Center(
-                  child: TextButton(
-                    onPressed: () {
-                      AuthenticationService().logout();
-                    },
-                    child: const Text("Sair"),
-                  ),
-                );
-            }
-          },
-        ),
+      body: PageView.builder(
+        onPageChanged: (int index) => setState(() {
+          _currentNavbarTab = BottomNavbarTabs.values[index];
+        }),
+        itemCount: BottomNavbarTabs.values.length,
+        controller: _pageController,
+        itemBuilder: (BuildContext context, int index) {
+          final _page = BottomNavbarTabs.values[index];
+          switch (_page) {
+            case BottomNavbarTabs.home:
+              return HomePage();
+            case BottomNavbarTabs.search:
+              return const Center(child: Text("Search"));
+            case BottomNavbarTabs.bag:
+              return const Center(child: Text("Bag"));
+            case BottomNavbarTabs.archived:
+              return const Center(child: Text("Archive"));
+            case BottomNavbarTabs.profile:
+              return Center(
+                child: TextButton(
+                  onPressed: () {
+                    AuthenticationService().logout();
+                  },
+                  child: const Text("Sair"),
+                ),
+              );
+          }
+        },
       ),
     );
   }
