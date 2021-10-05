@@ -19,11 +19,12 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Row(
-          children: [
-            Text(_currentNavbarTab.title),
-          ],
-        ),
+        centerTitle: false,
+        title: Text(_currentNavbarTab.title),
+        titleTextStyle: Theme.of(context).textTheme.headline3?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
         titleTextStyle: Theme.of(context)
             .textTheme
             .headline3
