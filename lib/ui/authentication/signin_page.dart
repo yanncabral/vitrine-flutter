@@ -103,11 +103,11 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {},
                   child: RichText(
                     text: TextSpan(
-                        text: "Eu concordo com os ",
+                        text: "Esqueceu sua senha? ",
                         style: Theme.of(context).textTheme.caption,
                         children: [
                           TextSpan(
-                            text: "Termos de Uso",
+                            text: "Recupere",
                             style:
                                 Theme.of(context).textTheme.caption?.copyWith(
                                       color: VanillaColorScheme.secondary,
