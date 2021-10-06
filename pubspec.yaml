@@ -19,7 +19,6 @@ dependencies:
   floating_bottom_navigation_bar: ^1.5.2
   flutter:
     sdk: flutter
-  flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
   image_picker: ^0.8.4+2
   mdi: ^4.0.0
