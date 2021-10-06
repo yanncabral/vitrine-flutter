@@ -126,10 +126,10 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
               "imageUrl": "",
             });
           }
+          callback();
         });
       });
     }
-    callback();
   }
 
   final _SignUpState _state = _SignUpState();
