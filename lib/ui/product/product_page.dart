@@ -99,7 +99,7 @@ class ProductPageInterface extends StatelessWidget {
             FractionallySizedBox(
               widthFactor: 0.5,
               child: Text(
-                "iPhone 11 Plus",
+                "iPhone 12 Pro Max",
                 style: Theme.of(context)
                     .textTheme
                     .headline2
