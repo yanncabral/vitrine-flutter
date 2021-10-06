@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^2.1.0
+  image_picker: ^0.8.4+2
   mdi: ^4.0.0
   page_view_indicators: ^2.0.0
 
