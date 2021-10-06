@@ -75,20 +75,21 @@ class SignInPage extends StatelessWidget {
                 ],
               ),
               StreamBuilder<DomainError?>(
-                  stream: _presenter.formError,
-                  builder: (context, snapshot) {
-                    if (snapshot.data != null) {
-                      return ListTile(
-                        leading: const Icon(
-                          Icons.close,
-                          color: Colors.red,
-                        ),
-                        title: Text(snapshot.data!.message()),
-                      );
-                    } else {
-                      return const SizedBox(height: 0);
-                    }
-                  }),
+                stream: _presenter.formError,
+                builder: (context, snapshot) {
+                  if (snapshot.data != null) {
+                    return ListTile(
+                      leading: const Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                      title: Text(snapshot.data!.message()),
+                    );
+                  } else {
+                    return const SizedBox(height: 0);
+                  }
+                },
+              ),
             ],
           ),
         ),

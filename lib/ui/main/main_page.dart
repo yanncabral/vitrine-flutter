@@ -1,11 +1,9 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/home/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
-import 'package:vitrine/ui/product/add_product_page.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,10 +29,8 @@ class _MainPageState extends State<MainPage> {
                     backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
                     child: IconButton(
                       color: VanillaColorScheme.secondary,
-                      onPressed: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => AddProductPage()),
-                      ),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed("/add-product"),
                       icon: const Icon(Icons.add),
                     ),
                   ),

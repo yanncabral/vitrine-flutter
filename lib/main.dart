@@ -6,6 +6,7 @@ import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
 import 'package:vitrine/ui/main/main_page.dart';
 import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
+import 'package:vitrine/ui/product/add_product_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ class _AppState extends State<App> {
       routes: {
         '/auth': (context) => AuthenticationPage(),
         '/home': (context) => MainPage(),
+        '/add-product': (context) => AddProductPage(),
       },
       home: FutureBuilder(
         future: _initialization,
