@@ -1,7 +1,6 @@
 enum BottomNavbarTabs {
   home,
   search,
-  bag,
   archived,
   profile,
 }
@@ -13,10 +12,8 @@ extension ButtonNavbarTabsLabels on BottomNavbarTabs {
         return "Explorar";
       case BottomNavbarTabs.search:
         return "Pesquisar";
-      case BottomNavbarTabs.bag:
-        return "Favoritos";
       case BottomNavbarTabs.archived:
-        return "Arquivados";
+        return "Favoritos";
       case BottomNavbarTabs.profile:
         return "Perfil";
     }
