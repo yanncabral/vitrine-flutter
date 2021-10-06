@@ -23,6 +23,7 @@ dependencies:
   image_picker: ^0.8.4+2
   mdi: ^4.0.0
   page_view_indicators: ^2.0.0
+  uuid: ^3.0.5
 
 dev_dependencies:
   faker: ^2.0.0

@@ -2,8 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
-import 'package:vitrine/ui/home_page/home_page.dart';
+import 'package:vitrine/ui/main/main_page.dart';
 import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
+import 'package:vitrine/ui/product/add_product_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +27,7 @@ class _AppState extends State<App> {
       debugShowCheckedModeBanner: false,
       routes: {
         '/auth': (context) => AuthenticationPage(),
-        '/home': (context) => HomePage(),
+        '/home': (context) => MainPage(),
       },
       home: FutureBuilder(
         future: _initialization,
@@ -36,7 +37,7 @@ class _AppState extends State<App> {
           }
 
           if (initializationSnapshot.connectionState == ConnectionState.done) {
-            return OnboardingPage();
+            return AddProductPage();
           }
           return const Text("carregando? rs"); // TODO: Add a loading screen
         },

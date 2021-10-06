@@ -1,9 +1,64 @@
+// ignore_for_file: use_setters_to_change_properties
+
+import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vitrine/domain/entities/product.dart';
+import 'package:uuid/uuid.dart';
+import 'package:vitrine/main/factory/domain/usecases/add_product_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+
+class _AddProductState {
+  String name = "";
+  String description = "";
+  double price = 0;
+  List<File> images = [];
+}
+
+class AddProductViewModel {
+  final state = _AddProductState();
+  final addProduct = AddProductFactory.factory;
+
+  void onNameChange(String name) {
+    state.name = name;
+  }
+
+  void onDescriptionChange(String description) {
+    state.description = description;
+  }
+
+  void onPriceChange(String price) {
+    state.price = double.tryParse(price) ?? 0;
+  }
+
+  void onFilesChange(List<XFile> files) {
+    state.images = files.map((e) => File(e.path)).toList();
+  }
+
+  Future<void> submit() async {
+    final List<String> images = [];
+    const uuid = Uuid();
+    for (final e in state.images) {
+      final saved = await FirebaseStorage.instance
+          .ref()
+          .child('images')
+          .child(uuid.v4())
+          .putFile(e);
+      images.add(await saved.ref.getDownloadURL());
+    }
+
+    addProduct.addProduct(Product(
+      name: state.name,
+      description: state.description,
+      price: state.price,
+      images: images,
+    ));
+  }
+}
 
 class AddProductPage extends StatefulWidget {
   @override
@@ -12,6 +67,7 @@ class AddProductPage extends StatefulWidget {
 
 class _AddProductPageState extends State<AddProductPage> {
   List<XFile>? _imageFileList;
+  static final _presenter = AddProductViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +86,29 @@ class _AddProductPageState extends State<AddProductPage> {
                     ?.copyWith(color: VanillaColorScheme.black),
               ),
               const SizedBox(height: 32),
-              const VanillaTextField(labelText: "Nome do produto"),
+              VanillaTextField(
+                labelText: "Nome do produto",
+                onChange: _presenter.onNameChange,
+              ),
               const SizedBox(height: 8),
-              const VanillaTextField(labelText: "Descrição do produto"),
+              VanillaTextField(
+                labelText: "Descrição do produto",
+                onChange: _presenter.onDescriptionChange,
+              ),
               const SizedBox(height: 8),
-              const VanillaTextField(labelText: "Preço do produto"),
+              VanillaTextField(
+                labelText: "Preço do produto",
+                onChange: _presenter.onPriceChange,
+              ),
               const SizedBox(height: 8),
               TextButton(
                 onPressed: () async {
                   final pickedFileList = await _picker.pickMultiImage();
                   setState(() {
                     _imageFileList = pickedFileList;
+                    if (_imageFileList != null) {
+                      _presenter.onFilesChange(_imageFileList!);
+                    }
                   });
                 },
                 child: Text(
@@ -73,7 +141,9 @@ class _AddProductPageState extends State<AddProductPage> {
                   const Spacer(),
                   VanillaActionButton(
                     title: "Adicionar",
-                    onPressed: () => Navigator.of(context).pushNamed("/auth"),
+                    onPressed: () {
+                      _presenter.submit();
+                    },
                     colorScheme: Brightness.dark,
                   ),
                 ],
@@ -90,10 +160,12 @@ class _AddProductPageState extends State<AddProductPage> {
 
 class VanillaTextField extends StatelessWidget {
   final String labelText;
+  final void Function(String text) onChange;
 
   const VanillaTextField({
     Key? key,
     required this.labelText,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -101,7 +173,7 @@ class VanillaTextField extends StatelessWidget {
     return TextField(
       // enabled: !(loadingSnapshot.data == true),
       textInputAction: TextInputAction.next,
-      // onChanged: _presenter.onEmailChange,
+      onChanged: onChange,
       keyboardType: TextInputType.emailAddress,
       style: Theme.of(context).textTheme.caption?.copyWith(
             color: VanillaColorScheme.black,
