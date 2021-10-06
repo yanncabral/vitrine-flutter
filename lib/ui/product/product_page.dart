@@ -1,8 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:vitrine/domain/entities/product.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
+import 'package:vitrine/ui/profile/profile_page.dart';
 
 class ProductPage extends StatefulWidget {
+  final Product product;
+
+  const ProductPage({Key? key, required this.product}) : super(key: key);
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
@@ -22,33 +29,31 @@ class _ProductPageState extends State<ProductPage> {
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
-          PageView.builder(
+          PageView(
             controller: _pageController,
-            itemBuilder: (context, index) {
-              return backgroundImage();
-            },
+            children:
+                widget.product.images.map((e) => backgroundImage(e)).toList(),
             onPageChanged: (int index) {
               _currentPageNotifier.value = index;
             },
           ),
           ProductPageInterface(
+            product: widget.product,
             pageNotifier: _currentPageNotifier,
-            itemCount: 7,
+            itemCount: widget.product.images.length,
           ),
         ],
       ),
     );
   }
 
-  Container backgroundImage() {
+  Container backgroundImage(String url) {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(
-            "assets/iphone.png",
-          ),
+          image: NetworkImage(url),
           fit: BoxFit.cover,
         ),
       ),
@@ -59,11 +64,13 @@ class _ProductPageState extends State<ProductPage> {
 class ProductPageInterface extends StatelessWidget {
   final ValueNotifier<int> pageNotifier;
   final int itemCount;
+  final Product product;
 
   const ProductPageInterface({
     Key? key,
     required this.pageNotifier,
     required this.itemCount,
+    required this.product,
   })  : assert(itemCount > 0),
         super(key: key);
 
@@ -88,18 +95,18 @@ class ProductPageInterface extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Apple",
-              style: Theme.of(context)
-                  .textTheme
-                  .headline4
-                  ?.copyWith(color: Colors.white.withOpacity(0.8)),
-            ),
+            // Text(
+            //   "Apple",
+            //   style: Theme.of(context)
+            //       .textTheme
+            //       .headline4
+            //       ?.copyWith(color: Colors.white.withOpacity(0.8)),
+            // ),
             const SizedBox(height: 8),
             FractionallySizedBox(
               widthFactor: 0.5,
               child: Text(
-                "iPhone 12 Pro Max",
+                product.name,
                 style: Theme.of(context)
                     .textTheme
                     .headline2
@@ -108,7 +115,7 @@ class ProductPageInterface extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              "Descubra produtos que te merecem oferecidos por gente como a gente",
+              product.description,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1
@@ -127,7 +134,14 @@ class ProductPageInterface extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.zero,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ExternalProfile(product: product),
+                        ),
+                      );
+                    },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -148,12 +162,65 @@ class ProductPageInterface extends StatelessWidget {
                 ),
                 const Spacer(),
                 VanillaActionButton(
-                  title: "R\$1299,90",
-                  // title: "Pedir",
-                  onPressed: () => Navigator.of(context).pushNamed("/auth"),
+                  title:
+                      "R\$${product.price.toStringAsFixed(2).replaceFirst('.', ',')}",
+                  onPressed: () async {
+                    await launch("https://instagram.com/${product.ownerId}");
+                  },
                   colorScheme: Brightness.light,
                 ),
               ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ExternalProfile extends StatelessWidget {
+  const ExternalProfile({
+    Key? key,
+    required this.product,
+  }) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        title: const Text("@dizyann"),
+        titleTextStyle: Theme.of(context).textTheme.headline3?.copyWith(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        foregroundColor: Colors.black,
+        // systemOverlayStyle: SystemUiOverlayStyle.dark,
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            ProfilePage(userId: product.ownerId),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  height: 60,
+                  child: VanillaActionButton(
+                    title:
+                        "R\$${product.price.toStringAsFixed(2).replaceFirst('.', ',')}",
+                    onPressed: () async {
+                      await launch("https://instagram.com/${product.ownerId}");
+                    },
+                    colorScheme: Brightness.dark,
+                  ),
+                ),
+              ),
             ),
           ],
         ),

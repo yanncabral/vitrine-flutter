@@ -140,7 +140,11 @@ class SignInPage extends StatelessWidget {
                   enabled: snapshot.data != true &&
                       formValidSnapshot.data == true &&
                       formErrorSnapshot.data == null,
-                  onPressed: _presenter.submit,
+                  onPressed: () {
+                    _presenter.submit(() {
+                      Navigator.of(context).pop();
+                    });
+                  },
                   colorScheme: Brightness.dark,
                 );
               },

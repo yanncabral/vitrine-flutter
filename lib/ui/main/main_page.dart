@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/home/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
+import 'package:vitrine/ui/product/add_product_page.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
 
 class MainPage extends StatefulWidget {
@@ -22,12 +24,30 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         elevation: 0,
         centerTitle: false,
+        actions: _currentNavbarTab == BottomNavbarTabs.profile
+            ? [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: CircleAvatar(
+                    backgroundColor: VanillaColorScheme.medium.withOpacity(0.1),
+                    child: IconButton(
+                      color: VanillaColorScheme.secondary,
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => AddProductPage()),
+                      ),
+                      icon: const Icon(Icons.add),
+                    ),
+                  ),
+                ),
+              ]
+            : [],
         title: Text(_currentNavbarTab.title),
-        titleTextStyle: Theme.of(context).textTheme.headline3?.copyWith(
+        titleTextStyle: Theme.of(context).textTheme.headline2?.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
-        backgroundColor: VanillaColorScheme.light,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         foregroundColor: Colors.black,
         systemOverlayStyle: SystemUiOverlayStyle.dark,
       ),
@@ -78,7 +98,7 @@ class _MainPageState extends State<MainPage> {
             case BottomNavbarTabs.archived:
               return const Center(child: Text("Archive"));
             case BottomNavbarTabs.profile:
-              return ProfilePage();
+              return const ProfilePage();
           }
         },
       ),

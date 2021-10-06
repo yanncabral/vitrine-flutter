@@ -13,5 +13,5 @@ abstract class SignInViewModel {
 
   void onEmailChange(String value);
   void onPasswordChange(String value);
-  void submit();
+  void submit(void Function() calback);
 }

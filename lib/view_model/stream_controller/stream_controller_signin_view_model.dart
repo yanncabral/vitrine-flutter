@@ -73,7 +73,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
   }
 
   @override
-  Future<void> submit() async {
+  Future<void> submit(void Function() callback) async {
     setState(() {
       _state.isLoading = true;
     });
@@ -91,6 +91,7 @@ class StreamControllerSignInViewModel implements SignInViewModel {
         }, (result) => null);
       });
     }
+    callback();
   }
 
   final _state = _SignInState();

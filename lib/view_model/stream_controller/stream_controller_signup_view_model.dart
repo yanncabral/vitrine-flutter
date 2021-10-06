@@ -95,7 +95,7 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
   }
 
   @override
-  Future<void> submit() async {
+  Future<void> submit(void Function() callback) async {
     _setState(() {
       _state.isLoading = true;
     });
@@ -120,14 +120,16 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
                 .collection("profiles")
                 .doc(user.uid)
                 .set({
+              "name": name(),
               "description": _state.description,
               "instagram": _state.instagramUser,
-              "products": []
+              "imageUrl": "",
             });
           }
         });
       });
     }
+    callback();
   }
 
   final _SignUpState _state = _SignUpState();

@@ -17,7 +17,7 @@ extension FirestoreProduct on Product {
       description: json["description"] as String,
       price: json["price"] as double,
       images: (json["images"] as List).map((e) => e as String).toList(),
-      ownerId: (json["ownerId"] ?? "") as String,
+      ownerId: (json["ownerId"] ?? "dizyann") as String,
     );
   }
 }

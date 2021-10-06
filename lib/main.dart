@@ -1,8 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:vitrine/data/enviroment/authentication/authentication_enviroment.dart';
+import 'package:vitrine/main/factory/enviroment/authentication_enviroment.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
 import 'package:vitrine/ui/main/main_page.dart';
+import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
+import 'package:vitrine/ui/product/add_product_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +20,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   Future<FirebaseApp> get _initialization => Firebase.initializeApp();
+  final enviroment = AuthenticationEnviromentFactory.factory;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,15 @@ class _AppState extends State<App> {
           }
 
           if (initializationSnapshot.connectionState == ConnectionState.done) {
-            return MainPage();
+            return StreamBuilder<AuthenticationState>(
+                stream: enviroment.authenticationState,
+                builder: (context, snapshot) {
+                  if (snapshot.data == AuthenticationState.loggedIn) {
+                    return MainPage();
+                  } else {
+                    return OnboardingPage();
+                  }
+                });
           }
           return const Text("carregando? rs"); // TODO: Add a loading screen
         },
