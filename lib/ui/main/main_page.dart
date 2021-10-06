@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:vitrine/data/services/authentication/authentication_service.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
-import 'package:vitrine/ui/home_page/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
+import 'package:vitrine/ui/profile/profile_page.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -47,13 +47,18 @@ class _MainPageState extends State<MainPage> {
             curve: Curves.decelerate,
           );
         }),
-        items: [
-          FloatingNavbarItem(icon: Icons.home),
-          FloatingNavbarItem(icon: Icons.search),
-          FloatingNavbarItem(icon: Icons.shopping_bag),
-          FloatingNavbarItem(icon: Icons.archive),
-          FloatingNavbarItem(icon: Icons.person),
-        ],
+        items: BottomNavbarTabs.values.map((e) {
+          switch (e) {
+            case BottomNavbarTabs.home:
+              return FloatingNavbarItem(icon: Icons.home);
+            case BottomNavbarTabs.search:
+              return FloatingNavbarItem(icon: Icons.search);
+            case BottomNavbarTabs.archived:
+              return FloatingNavbarItem(icon: Icons.archive);
+            case BottomNavbarTabs.profile:
+              return FloatingNavbarItem(icon: Icons.person);
+          }
+        }).toList(),
       ),
       extendBody: true,
       body: PageView.builder(
@@ -66,14 +71,6 @@ class _MainPageState extends State<MainPage> {
           final _page = BottomNavbarTabs.values[index];
           switch (_page) {
             case BottomNavbarTabs.home:
-              return HomePage();
-            case BottomNavbarTabs.search:
-              return const Center(child: Text("Search"));
-            case BottomNavbarTabs.bag:
-              return const Center(child: Text("Bag"));
-            case BottomNavbarTabs.archived:
-              return const Center(child: Text("Archive"));
-            case BottomNavbarTabs.profile:
               return Center(
                 child: TextButton(
                   onPressed: () {
@@ -82,6 +79,12 @@ class _MainPageState extends State<MainPage> {
                   child: const Text("Sair"),
                 ),
               );
+            case BottomNavbarTabs.search:
+              return const Center(child: Text("Search"));
+            case BottomNavbarTabs.archived:
+              return const Center(child: Text("Archive"));
+            case BottomNavbarTabs.profile:
+              return ProfilePage();
           }
         },
       ),
