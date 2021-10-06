@@ -6,7 +6,8 @@ extension FirestoreProduct on Product {
       "name": name,
       "description": description,
       "price": price,
-      "images": images
+      "images": images,
+      "ownerId": ownerId,
     };
   }
 
@@ -15,7 +16,8 @@ extension FirestoreProduct on Product {
       name: json["name"] as String,
       description: json["description"] as String,
       price: json["price"] as double,
-      images: json["images"] as List<String>,
+      images: (json["images"] as List).map((e) => e as String).toList(),
+      ownerId: (json["ownerId"] ?? "") as String,
     );
   }
 }

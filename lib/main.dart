@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
 import 'package:vitrine/ui/design/text_theme.dart';
 import 'package:vitrine/ui/main/main_page.dart';
-import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
-import 'package:vitrine/ui/product/add_product_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +35,7 @@ class _AppState extends State<App> {
           }
 
           if (initializationSnapshot.connectionState == ConnectionState.done) {
-            return AddProductPage();
+            return MainPage();
           }
           return const Text("carregando? rs"); // TODO: Add a loading screen
         },

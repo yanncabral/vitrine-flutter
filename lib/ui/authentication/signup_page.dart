@@ -7,6 +7,7 @@ import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/domain/value_objects/person_name.dart';
 import 'package:vitrine/main/factory/domain/view_models/signup_view_model_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
+import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/util/domain_error_messages.dart';
 
@@ -380,6 +381,24 @@ class SignUpPage extends StatelessWidget {
                           ),
                         ),
                       ),
+                    );
+                  }),
+              const SizedBox(height: 8),
+              StreamBuilder<String>(
+                  stream: _presenter.description,
+                  builder: (context, snapshot) {
+                    return VanillaTextField(
+                      labelText: "Descrição",
+                      onChange: _presenter.onDescriptionChange,
+                    );
+                  }),
+              const SizedBox(height: 8),
+              StreamBuilder<String>(
+                  stream: _presenter.instagramUser,
+                  builder: (context, snapshot) {
+                    return VanillaTextField(
+                      labelText: "Instagram",
+                      onChange: _presenter.onInstagramUserChange,
                     );
                   }),
             ],

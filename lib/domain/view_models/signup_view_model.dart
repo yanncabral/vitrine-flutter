@@ -9,9 +9,14 @@ abstract class SignUpViewModel {
   Stream<Either<ValidationError, PersonName>?> get nameState;
   Stream<Either<ValidationError, EmailAddress>?> get emailState;
   Stream<Either<ValidationError, Password>?> get passwordState;
+  Stream<String> get description;
+  Stream<String> get instagramUser;
   Stream<DomainError?> get formError;
   Stream<bool> get isLoadingState;
   Stream<bool> get isFormValidState;
+
+  void onDescriptionChange(String value);
+  void onInstagramUserChange(String value);
 
   void onNameChange(String value);
   void onEmailChange(String value);

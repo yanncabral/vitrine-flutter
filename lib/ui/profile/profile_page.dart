@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vitrine/domain/entities/product.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -122,14 +123,6 @@ class ProfilePage extends StatelessWidget {
                         width: double.infinity,
                         child: Wrap(
                           runSpacing: 18,
-                          children: const [
-                            ItemCard(),
-                            ItemCard(),
-                            ItemCard(),
-                            ItemCard(),
-                            ItemCard(),
-                            ItemCard(),
-                          ],
                         ),
                       ),
                       SizedBox(height: MediaQuery.of(context).padding.bottom),
@@ -146,8 +139,10 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ItemCard extends StatelessWidget {
+  final Product product;
   const ItemCard({
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -165,8 +160,8 @@ class ItemCard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: Image.asset(
-                "assets/perfil.jpg",
+              child: Image.network(
+                product.images.first,
                 fit: BoxFit.cover,
               ),
             ),
@@ -176,7 +171,7 @@ class ItemCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "RAY-BAN 2180",
+                    product.name,
                     style: Theme.of(context)
                         .textTheme
                         .headline4
@@ -184,7 +179,7 @@ class ItemCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    "R\$149,90",
+                    "R\$${product.price.toStringAsFixed(2).replaceFirst(".", ',')}",
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
                           color: VanillaColorScheme.secondary,
                         ),

@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/validation/validation_error.dart';
 import 'package:vitrine/domain/value_objects/email_address.dart';
@@ -15,6 +17,10 @@ class _SignUpState {
   Either<ValidationError, Password>? passwordState;
   DomainError? formError;
   bool isLoading = false;
+
+  String description = "";
+  String instagramUser = "";
+
   bool get isFormValid => [
         nameState,
         emailState,
@@ -106,10 +112,47 @@ class StreamControllerSignUpViewModel implements SignUpViewModel {
         _state.isLoading = false;
         result.fold((error) {
           _state.formError = error;
-        }, (r) => null);
+        }, (r) async {
+          // TODO: Move it to its own layer
+          final user = FirebaseAuth.instance.currentUser;
+          if (user != null) {
+            await FirebaseFirestore.instance
+                .collection("profiles")
+                .doc(user.uid)
+                .set({
+              "description": _state.description,
+              "instagram": _state.instagramUser,
+              "products": []
+            });
+          }
+        });
       });
     }
   }
 
   final _SignUpState _state = _SignUpState();
+
+  @override
+  Stream<String> get description =>
+      _stateController.stream.map((state) => state.description).distinct();
+
+  @override
+  Stream<String> get instagramUser =>
+      _stateController.stream.map((state) => state.instagramUser).distinct();
+
+  @override
+  void onDescriptionChange(String value) {
+    _setState(() {
+      _state.formError = null;
+      _state.description = value;
+    });
+  }
+
+  @override
+  void onInstagramUserChange(String value) {
+    _setState(() {
+      _state.formError = null;
+      _state.instagramUser = value;
+    });
+  }
 }

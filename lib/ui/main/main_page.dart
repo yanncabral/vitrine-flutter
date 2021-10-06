@@ -1,8 +1,9 @@
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:vitrine/data/services/authentication/authentication_service.dart';
+
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/home/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
 
@@ -71,14 +72,7 @@ class _MainPageState extends State<MainPage> {
           final _page = BottomNavbarTabs.values[index];
           switch (_page) {
             case BottomNavbarTabs.home:
-              return Center(
-                child: TextButton(
-                  onPressed: () {
-                    AuthenticationService().logout();
-                  },
-                  child: const Text("Sair"),
-                ),
-              );
+              return HomePage();
             case BottomNavbarTabs.search:
               return const Center(child: Text("Search"));
             case BottomNavbarTabs.archived:

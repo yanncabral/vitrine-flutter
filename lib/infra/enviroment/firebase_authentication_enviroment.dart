@@ -13,4 +13,14 @@ class FirebaseAuthenticationEnviroment implements AuthenticationEnviroment {
           return AuthenticationState.loggedIn;
         }
       }).distinct();
+
+  // Future<Profile> currentUser() async {
+  //   return Profile(
+  //     id: FirebaseAuth.instance.currentUser!.uid,
+  //     name: PersonName(FirebaseAuth.instance.currentUser!.displayName!),
+  //     description: description,
+  //     imageUrl: imageUrl,
+  //     products: products,
+  //   );
+  // }
 }
