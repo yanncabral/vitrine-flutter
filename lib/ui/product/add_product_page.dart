@@ -6,10 +6,13 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vitrine/data/enviroment/authentication/authentication_enviroment.dart';
 import 'package:vitrine/domain/entities/product.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vitrine/main/factory/domain/usecases/add_product_factory.dart';
+import 'package:vitrine/main/factory/enviroment/authentication_enviroment.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
+import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 class _AddProductState {
@@ -40,6 +43,8 @@ class AddProductViewModel {
   }
 
   Future<void> submit() async {
+    final authEnviroment = AuthenticationEnviromentFactory.factory;
+
     final List<String> images = [];
     const uuid = Uuid();
     for (final e in state.images) {
@@ -51,12 +56,13 @@ class AddProductViewModel {
       images.add(await saved.ref.getDownloadURL());
     }
 
-    addProduct.addProduct(Product(
-      name: state.name,
-      description: state.description,
-      price: state.price,
-      images: images,
-    ));
+    // addProduct.addProduct(Product(
+    //   name: state.name,
+    //   description: state.description,
+    //   price: state.price,
+    //   images: images,
+
+    // ));
   }
 }
 
@@ -156,85 +162,4 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   final ImagePicker _picker = ImagePicker();
-}
-
-class VanillaTextField extends StatelessWidget {
-  final String labelText;
-  final void Function(String text) onChange;
-
-  const VanillaTextField({
-    Key? key,
-    required this.labelText,
-    required this.onChange,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      // enabled: !(loadingSnapshot.data == true),
-      textInputAction: TextInputAction.next,
-      onChanged: onChange,
-      keyboardType: TextInputType.emailAddress,
-      style: Theme.of(context).textTheme.caption?.copyWith(
-            color: VanillaColorScheme.black,
-          ),
-      cursorColor: VanillaColorScheme.dark,
-      decoration: InputDecoration(
-        disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: VanillaColorScheme.light,
-            width: 0,
-          ),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: VanillaColorScheme.error,
-            width: 0,
-          ),
-        ),
-        // errorText: snapshot.data?.fold(
-        //   (l) {
-        //     switch (l) {
-        //       case ValidationError.empty:
-        //         return "Esse campo é obrigatório.";
-        //       case ValidationError.invalid:
-        //         return "Esse e-mail é inválido.";
-        //       default:
-        //         return null;
-        //     }
-        //   },
-        //   (r) => null,
-        // ),
-        labelText: labelText,
-        labelStyle: Theme.of(context).textTheme.caption?.copyWith(
-              color: VanillaColorScheme.black.withOpacity(0.4),
-            ),
-        filled: true,
-        fillColor: VanillaColorScheme.light,
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: VanillaColorScheme.error,
-            width: 0,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: VanillaColorScheme.light,
-            width: 0,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide(
-            color: VanillaColorScheme.light,
-            width: 0,
-          ),
-        ),
-      ),
-    );
-  }
 }
