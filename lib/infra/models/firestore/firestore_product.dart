@@ -15,7 +15,7 @@ extension FirestoreProduct on Product {
 
   static Product fromJson(Map json) {
     return Product(
-      id: "",
+      id: "", // TODO: Fix id
       title: json["name"] as String,
       overview: json["description"] as String,
       price: json["price"] as double,
