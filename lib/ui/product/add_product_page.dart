@@ -14,6 +14,7 @@ import 'package:vitrine/main/factory/domain/usecases/add_product_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/view_model/stream_controller/strem_controller_view_model/stream_controller_view_model.dart';
 
 class _AddProductState {
   String name = "";
@@ -29,20 +30,13 @@ class _AddProductState {
       ].every((element) => element == true);
 }
 
-class AddProductViewModel {
-  final state = _AddProductState();
+class AddProductViewModel extends StreamControllerViewModel<_AddProductState> {
   final addProduct = AddProductFactory.factory;
 
-  final _controller = StreamController<_AddProductState>.broadcast();
   Stream<bool?> get isLoading =>
-      _controller.stream.map((state) => state.isLoading).distinct();
+      controller.stream.map((state) => state.isLoading).distinct();
   Stream<bool?> get isFormValid =>
-      _controller.stream.map((state) => state.isFormValid).distinct();
-
-  void setState(void Function() body) {
-    body();
-    _controller.add(state);
-  }
+      controller.stream.map((state) => state.isFormValid).distinct();
 
   void onNameChange(String name) {
     setState(() {
@@ -84,15 +78,15 @@ class AddProductViewModel {
             .putFile(e);
         images.add(await saved.ref.getDownloadURL());
       }
-      addProduct.addProduct(
-        Product(
-          name: state.name,
-          description: state.description,
-          price: state.price,
-          images: images,
-          ownerId: userId,
-        ),
-      );
+      // addProduct.addProduct(
+      //   Product(
+      //     name: state.name,
+      //     description: state.description,
+      //     price: state.price,
+      //     images: images,
+      //     ownerId: userId,
+      //   ),
+      // );
       setState(() {
         state.isLoading = false;
       });

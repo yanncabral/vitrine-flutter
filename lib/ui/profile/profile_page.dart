@@ -216,7 +216,7 @@ class ItemCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    product.images.first,
+                    product.medias.first.url,
                     fit: BoxFit.cover,
                     // height: 100,
                   ),
@@ -228,7 +228,7 @@ class ItemCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      product.name,
+                      product.title,
                       style: Theme.of(context)
                           .textTheme
                           .headline4

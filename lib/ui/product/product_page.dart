@@ -30,8 +30,9 @@ class _ProductPageState extends State<ProductPage> {
         children: [
           PageView(
             controller: _pageController,
-            children:
-                widget.product.images.map((e) => backgroundImage(e)).toList(),
+            children: widget.product.medias
+                .map((e) => backgroundImage(e.url))
+                .toList(),
             onPageChanged: (int index) {
               _currentPageNotifier.value = index;
             },
@@ -39,7 +40,7 @@ class _ProductPageState extends State<ProductPage> {
           ProductPageInterface(
             product: widget.product,
             pageNotifier: _currentPageNotifier,
-            itemCount: widget.product.images.length,
+            itemCount: widget.product.medias.length,
           ),
         ],
       ),
@@ -105,7 +106,7 @@ class ProductPageInterface extends StatelessWidget {
             FractionallySizedBox(
               widthFactor: 0.5,
               child: Text(
-                product.name,
+                product.title,
                 style: Theme.of(context)
                     .textTheme
                     .headline2
@@ -114,7 +115,7 @@ class ProductPageInterface extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             Text(
-              product.description,
+              product.overview,
               style: Theme.of(context)
                   .textTheme
                   .bodyText1

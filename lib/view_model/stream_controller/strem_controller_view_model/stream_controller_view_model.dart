@@ -1,0 +1,13 @@
+import 'dart:async';
+
+abstract class StreamControllerViewModel<State> {
+  late State state;
+  final controller = StreamController<State>.broadcast();
+
+  void setState(Function() action) {
+    action();
+    controller.add(state);
+  }
+
+  void dispose() => controller.close();
+}
