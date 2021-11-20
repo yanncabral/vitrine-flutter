@@ -1,7 +1,12 @@
 enum MediaType { photo, video }
 
 class Media {
-  Media(this.blurHash, this.url, this.altText, this.mediaType);
+  Media({
+    required this.blurHash,
+    required this.url,
+    required this.altText,
+    required this.mediaType,
+  });
 
   String get id => blurHash;
 
