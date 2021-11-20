@@ -8,10 +8,20 @@ class _HomeViewModelState {
   List<Product>? products;
 }
 
-class StreamControllerHomeViewModel {
-  final _state = _HomeViewModelState();
-  final _controller = StreamController<_HomeViewModelState>.broadcast();
+abstract class StreamControllerViewModel<State> {
+  late State _state;
+  final _controller = StreamController<State>.broadcast();
 
+  void setState(Function() action) {
+    action();
+    _controller.add(_state);
+  }
+
+  void dispose() => _controller.close();
+}
+
+class StreamControllerHomeViewModel
+    extends StreamControllerViewModel<_HomeViewModelState> {
   Stream<List<Product>?> get products =>
       _controller.stream.map((state) => state.products).distinct();
 
