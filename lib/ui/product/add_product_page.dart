@@ -31,7 +31,7 @@ class _AddProductState {
 }
 
 class AddProductViewModel extends StreamControllerViewModel<_AddProductState> {
-  final addProduct = AddProductFactory.factory;
+  // final addProduct = AddProductFactory.factory;
 
   Stream<bool?> get isLoading =>
       controller.stream.map((state) => state.isLoading).distinct();
