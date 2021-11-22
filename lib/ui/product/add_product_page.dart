@@ -8,9 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vitrine/domain/entities/product.dart';
 
-import 'package:vitrine/main/factory/domain/usecases/add_product_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
@@ -93,6 +91,10 @@ class AddProductViewModel extends StreamControllerViewModel<_AddProductState> {
       callback();
     }
   }
+
+  final _state = _AddProductState();
+  @override
+  _AddProductState get state => _state;
 }
 
 class AddProductPage extends StatefulWidget {

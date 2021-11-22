@@ -1,7 +1,7 @@
 import 'dart:async';
 
 abstract class StreamControllerViewModel<State> {
-  late State state;
+  State get state;
   final controller = StreamController<State>.broadcast();
 
   void setState(Function() action) {

@@ -5,12 +5,12 @@ import 'package:vitrine/domain/entities/product.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
 
 abstract class AddProduct {
-  Future<Either<DomainError, Product>> addProduct(
-    String title,
-    String overview,
-    double price,
-    List<Media> medias,
-    Category category,
-    String ownerId,
-  );
+  Future<Either<DomainError, Product>> addProduct({
+    required String title,
+    required String overview,
+    required double price,
+    required List<Media> medias,
+    required Category category,
+    required String ownerId,
+  });
 }

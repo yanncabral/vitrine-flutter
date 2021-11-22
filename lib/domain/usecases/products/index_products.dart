@@ -3,5 +3,5 @@ import 'package:vitrine/domain/entities/product.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
 
 abstract class IndexProductsUsecase {
-  Future<Either<DomainError, List<Product>>> index();
+  Future<Either<DomainError, Iterable<Product>>> index({required int page});
 }

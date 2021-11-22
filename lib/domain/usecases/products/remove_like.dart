@@ -4,5 +4,8 @@ import 'package:vitrine/domain/entities/user.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
 
 abstract class RemoveLikeProductUsecase {
-  Future<Either<DomainError, void>> removeLike(Product product, User user);
+  Future<Either<DomainError, void>> removeLike({
+    required Product product,
+    required User user,
+  });
 }
