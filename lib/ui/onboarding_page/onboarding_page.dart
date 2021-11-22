@@ -6,6 +6,7 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget background() => SizedBox(
           height: double.infinity,
+          width: double.infinity,
           child: Image.asset(
             "assets/onboarding.jpg",
             fit: BoxFit.cover,
