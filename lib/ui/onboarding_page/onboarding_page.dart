@@ -57,7 +57,7 @@ class OnboardingInterface extends StatelessWidget {
                 "Finalmente você chegou ao Vitrine",
                 style: Theme.of(context)
                     .textTheme
-                    .headline2
+                    .headline4
                     ?.copyWith(color: Colors.white),
               ),
             ),
@@ -85,7 +85,7 @@ class OnboardingInterface extends StatelessWidget {
                           "Explorar ",
                           style: Theme.of(context)
                               .textTheme
-                              .headline4
+                              .bodyText2
                               ?.copyWith(color: Colors.white),
                         ),
                         const Icon(

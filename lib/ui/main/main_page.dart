@@ -38,7 +38,7 @@ class _MainPageState extends State<MainPage> {
               ]
             : [],
         title: Text(_currentNavbarTab.title),
-        titleTextStyle: Theme.of(context).textTheme.headline2?.copyWith(
+        titleTextStyle: Theme.of(context).textTheme.headline4?.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),

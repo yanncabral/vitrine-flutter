@@ -190,64 +190,128 @@ class ItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      onPressed: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => ProductPage(
-              product: product,
+    return SizedBox(
+      height: 116,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Hero(
+              tag: product.medias.first.blurHash,
+              child: Image.network(
+                product.medias.first.url,
+                fit: BoxFit.cover,
+                width: 87,
+                height: 116,
+              ),
             ),
           ),
-        );
-      },
-      padding: EdgeInsets.zero,
-      child: FractionallySizedBox(
-        widthFactor: 0.5,
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            color: VanillaColorScheme.light,
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(
-                    product.medias.first.url,
-                    fit: BoxFit.cover,
-                    // height: 100,
+          const SizedBox(width: 16),
+          Flexible(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  product.title,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      ?.copyWith(fontWeight: FontWeight.bold),
+                ),
+                // const SizedBox(height: 8),
+                Opacity(
+                  opacity: 0.7,
+                  child: Text(
+                    product.overview,
+                    maxLines: 2,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                // Spacer(),
+                Row(
                   children: [
                     Text(
-                      product.title,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          ?.copyWith(color: Colors.black),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "R\$${product.price.toStringAsFixed(2).replaceFirst(".", ',')}",
-                      style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            color: VanillaColorScheme.secondary,
+                      "R\$${product.price.toStringAsFixed(2)}",
+                      style: Theme.of(context).textTheme.button?.copyWith(
+                            color: VanillaColorScheme.error,
+                            fontWeight: FontWeight.bold,
                           ),
                     ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: VanillaColorScheme.error,
+                    )
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return CupertinoButton(
+  //     onPressed: () {
+  //       Navigator.of(context).push(
+  //         MaterialPageRoute(
+  //           builder: (context) => ProductPage(
+  //             product: product,
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //     padding: EdgeInsets.zero,
+  //     child: FractionallySizedBox(
+  //       widthFactor: 0.5,
+  //       child: Container(
+  //         margin: const EdgeInsets.symmetric(horizontal: 8),
+  //         decoration: BoxDecoration(
+  //           color: VanillaColorScheme.light,
+  //           borderRadius: BorderRadius.circular(12),
+  //         ),
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             SizedBox(
+  //               child: ClipRRect(
+  //                 borderRadius: BorderRadius.circular(12),
+  //                 child: Image.network(
+  //                   product.medias.first.url,
+  //                   fit: BoxFit.cover,
+  //                   // height: 100,
+  //                 ),
+  //               ),
+  //             ),
+  //             Padding(
+  //               padding: const EdgeInsets.all(12.0),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: [
+  //                   Text(
+  //                     product.title,
+  //                     style: Theme.of(context)
+  //                         .textTheme
+  //                         .headline4
+  //                         ?.copyWith(color: Colors.black),
+  //                   ),
+  //                   const SizedBox(height: 4),
+  //                   Text(
+  //                     "R\$${product.price.toStringAsFixed(2).replaceFirst(".", ',')}",
+  //                     style: Theme.of(context).textTheme.bodyText2?.copyWith(
+  //                           color: VanillaColorScheme.secondary,
+  //                         ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
 }

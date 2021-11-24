@@ -52,7 +52,8 @@ class VanillaActionButton extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: Theme.of(context).textTheme.headline4?.copyWith(
+          style: Theme.of(context).textTheme.bodyText2?.copyWith(
+              fontWeight: FontWeight.bold,
               color: colorScheme == Brightness.light
                   ? Colors.black
                   : Colors.white),
