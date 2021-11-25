@@ -7,6 +7,7 @@ import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/main/factory/domain/view_models/signin_view_model_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
 import 'package:vitrine/ui/util/domain_error_messages.dart';
 
 class SignInPage extends StatelessWidget {
@@ -35,7 +36,7 @@ class SignInPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              CachedTranslatedText(
                 "Entrar",
                 style: Theme.of(context)
                     .textTheme
@@ -45,7 +46,7 @@ class SignInPage extends StatelessWidget {
               const SizedBox(height: 32),
               socialLoginButtons(),
               const SizedBox(height: 32),
-              Text(
+              CachedTranslatedText(
                 "Ou com email",
                 style: Theme.of(context)
                     .textTheme
@@ -57,7 +58,7 @@ class SignInPage extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Text(
+                  CachedTranslatedText(
                     "Ainda não tem uma conta?",
                     style: Theme.of(context).textTheme.caption?.copyWith(
                           color: VanillaColorScheme.medium,
@@ -65,7 +66,7 @@ class SignInPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: onSwitchPress,
-                    child: Text(
+                    child: CachedTranslatedText(
                       "Cadastre-se",
                       style: Theme.of(context).textTheme.caption?.copyWith(
                             color: VanillaColorScheme.secondary,

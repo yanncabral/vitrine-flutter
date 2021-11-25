@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
 
 class OnboardingPage extends StatelessWidget {
   @override
@@ -53,7 +54,7 @@ class OnboardingInterface extends StatelessWidget {
           children: [
             FractionallySizedBox(
               widthFactor: 0.5,
-              child: Text(
+              child: CachedTranslatedText(
                 "Finalmente você chegou ao Vitrine",
                 style: Theme.of(context)
                     .textTheme
@@ -62,7 +63,7 @@ class OnboardingInterface extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
+            CachedTranslatedText(
               "Descubra produtos que te merecem oferecidos por gente como a gente",
               style: Theme.of(context)
                   .textTheme
@@ -81,7 +82,7 @@ class OnboardingInterface extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        CachedTranslatedText(
                           "Explorar ",
                           style: Theme.of(context)
                               .textTheme

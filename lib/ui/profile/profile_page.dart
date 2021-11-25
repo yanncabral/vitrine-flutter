@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bye_bye_localization/bye_bye_localization.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,7 @@ import 'package:vitrine/domain/value_objects/person_name.dart';
 import 'package:vitrine/infra/models/firestore/firestore_product.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/product/product_page.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
 
 class _ProfileViewModelState {
   Profile? profile;
@@ -21,35 +23,35 @@ class StreamControllerProfileViewModel {
   Stream<Profile?> get profile =>
       _controller.stream.map((state) => state.profile).distinct();
 
-  Future<void> getProfile(String userId) async {
-    final user = await FirebaseFirestore.instance
-        .collection("profiles")
-        .doc(userId)
-        .get();
-    final data = user.data();
-    final products = await _getProducts(userId);
-    state.profile = Profile(
-      id: userId,
-      name: PersonName(data!["name"] as String),
-      description: data["description"] as String,
-      imageUrl: (data["imageUrl"] ?? "") as String,
-      products: products,
-    );
-    _controller.add(state);
-  }
+  // Future<void> getProfile(String userId) async {
+  //   final user = await FirebaseFirestore.instance
+  //       .collection("profiles")
+  //       .doc(userId)
+  //       .get();
+  //   final data = user.data();
+  //   final products = await _getProducts(userId);
+  //   state.profile = Profile(
+  //     id: userId,
+  //     name: PersonName(data!["name"] as String),
+  //     description: data["description"] as String,
+  //     imageUrl: (data["imageUrl"] ?? "") as String,
+  //     products: products,
+  //   );
+  //   _controller.add(state);
+  // }
 
-  Future<List<Product>> _getProducts(String userId) async {
-    final products = await FirebaseFirestore.instance
-        .collection("profiles")
-        .doc(userId)
-        .collection("products")
-        .get();
-    return products.docs
-        .map(
-          (e) => FirestoreProduct.fromJson(e.data()),
-        )
-        .toList();
-  }
+  // Future<List<Product>> _getProducts(String userId) async {
+  // final products = await FirebaseFirestore.instance
+  //     .collection("profiles")
+  //     .doc(userId)
+  //     .collection("products")
+  //     .get();
+  // return products.docs
+  //     .map(
+  //       (e) => FirestoreProduct.fromJson(e.data(), ),
+  //     )
+  //     .toList();
+  // }
 }
 
 class ProfilePage extends StatefulWidget {
@@ -64,12 +66,12 @@ class _ProfilePageState extends State<ProfilePage> {
   static final _presenter = StreamControllerProfileViewModel();
 
   Future<void> getProducts() async {
-    if (widget.userId != null) {
-      await _presenter.getProfile(widget.userId!);
-    } else {
-      final uid = FirebaseAuth.instance.currentUser!.uid;
-      await _presenter.getProfile(uid);
-    }
+    // if (widget.userId != null) {
+    //   await _presenter.getProfile(widget.userId!);
+    // } else {
+    //   final uid = FirebaseAuth.instance.currentUser!.uid;
+    //   await _presenter.getProfile(uid);
+    // }
   }
 
   @override
@@ -109,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              CachedTranslatedText(
                                 snapshot.data?.name() ?? "Yann",
                                 style: Theme.of(context)
                                     .textTheme
@@ -120,7 +122,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                               Opacity(
                                 opacity: 0.8,
-                                child: Text(
+                                child: CachedTranslatedText(
                                   snapshot.data?.description ??
                                       "Desenvolvedor mais brabo do brasil!!",
                                   style: Theme.of(context)
@@ -143,7 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          CachedTranslatedText(
                             "Produtos",
                             style: Theme.of(context)
                                 .textTheme
@@ -163,8 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           } else ...{
-                            const Center(
-                              child: Text("Não há nada aqui por enquanto..."),
+                            Center(
+                              child: CachedTranslatedText(
+                                  "Não há nada aqui por enquanto..."),
                             )
                           },
                           SizedBox(
@@ -213,7 +216,7 @@ class ItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text(
+                CachedTranslatedText(
                   product.title,
                   style: Theme.of(context)
                       .textTheme
@@ -223,7 +226,7 @@ class ItemCard extends StatelessWidget {
                 // const SizedBox(height: 8),
                 Opacity(
                   opacity: 0.7,
-                  child: Text(
+                  child: CachedTranslatedText(
                     product.overview,
                     maxLines: 2,
                   ),

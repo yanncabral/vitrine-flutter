@@ -1,5 +1,7 @@
+import 'package:bye_bye_localization/bye_bye_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:vitrine/data/enviroment/authentication/authentication_enviroment.dart';
 import 'package:vitrine/main/factory/enviroment/authentication_enviroment.dart';
 import 'package:vitrine/ui/authentication/authentication_page.dart';
@@ -8,8 +10,36 @@ import 'package:vitrine/ui/main/main_page.dart';
 import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
 import 'package:vitrine/ui/product/add_product_page.dart';
 
+Future<bool> initWidget() async {
+  return TranslationManager().init(
+    originLanguage: Languages.PORTUGUESE,
+  );
+}
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+// Method 3
+Future _showNotificationWithoutSound() async {
+  await flutterLocalNotificationsPlugin.show(
+    0,
+    'Olá',
+    'Bem vindo ao Vitrine',
+    null,
+    payload: 'No_Sound',
+  );
+}
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initWidget();
+  const initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+  const initializationSettings =
+      InitializationSettings(android: initializationSettingsAndroid);
+
+  flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  _showNotificationWithoutSound();
   runApp(App());
 }
 

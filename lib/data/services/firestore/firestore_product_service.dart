@@ -2,13 +2,18 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:vitrine/domain/entities/category.dart';
 import 'package:vitrine/domain/entities/product.dart';
+import 'package:vitrine/domain/entities/shop.dart';
 import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/domain/usecases/products/index_products.dart';
 import 'package:vitrine/domain/usecases/products/index_products_by_category.dart';
+import 'package:vitrine/domain/usecases/products/index_products_by_shop.dart';
 import 'package:vitrine/infra/models/firestore/firestore_product.dart';
 
 class FirestoreProductsDatasource
-    implements IndexProductsByCategoryUsecase, IndexProductsUsecase {
+    implements
+        IndexProductsByCategoryUsecase,
+        IndexProductsUsecase,
+        IndexProductsByShopUsecase {
   static final _remote = FirebaseFirestore.instance.collection("products");
 
   @override
@@ -25,7 +30,7 @@ class FirestoreProductsDatasource
         .get();
 
     final products = snapshot.docs.map(
-      (e) => FirestoreProduct.fromJson(e.data()),
+      (e) => FirestoreProduct.fromJson(e.data(), e.id),
     );
 
     return Right(products);
@@ -37,12 +42,31 @@ class FirestoreProductsDatasource
     final snapshot = await _remote
         .withConverter<Product>(
           fromFirestore: (snapshots, _) =>
-              FirestoreProduct.fromJson(snapshots.data()!),
+              FirestoreProduct.fromJson(snapshots.data()!, snapshots.id),
           toFirestore: (product, _) => product.toJson(),
         )
         .get();
 
     final products = snapshot.docs.map((e) => e.data());
+    return Right(products);
+  }
+
+  @override
+  Future<Either<DomainError, Iterable<Product>>> findByShop(
+      {required Shop shop, required int page}) async {
+    final snapshot = await _remote
+        .where("owner",
+            isEqualTo:
+                FirebaseFirestore.instance.collection("shops").doc(shop.id))
+        .withConverter<Product>(
+          fromFirestore: (snapshots, _) =>
+              FirestoreProduct.fromJson(snapshots.data()!, snapshots.id),
+          toFirestore: (product, _) => product.toJson(),
+        )
+        .get();
+
+    final products = snapshot.docs.map((e) => e.data());
+
     return Right(products);
   }
 }

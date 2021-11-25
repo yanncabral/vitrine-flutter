@@ -9,6 +9,7 @@ import 'package:vitrine/main/factory/domain/view_models/signup_view_model_factor
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
 import 'package:vitrine/ui/util/domain_error_messages.dart';
 
 class SignUpPage extends StatelessWidget {
@@ -37,7 +38,7 @@ class SignUpPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              CachedTranslatedText(
                 "Registrar",
                 style: Theme.of(context)
                     .textTheme
@@ -47,7 +48,7 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 32),
               socialLoginButtons(),
               const SizedBox(height: 32),
-              Text(
+              CachedTranslatedText(
                 "Ou com email",
                 style: Theme.of(context)
                     .textTheme
@@ -59,7 +60,7 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  Text(
+                  CachedTranslatedText(
                     "Já tem uma conta?",
                     style: Theme.of(context).textTheme.caption?.copyWith(
                           color: VanillaColorScheme.medium,
@@ -67,7 +68,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: onSwitchPress,
-                    child: Text(
+                    child: CachedTranslatedText(
                       "Entre",
                       style: Theme.of(context).textTheme.caption?.copyWith(
                             color: VanillaColorScheme.secondary,

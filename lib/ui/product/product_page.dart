@@ -1,13 +1,34 @@
 // import 'package:flutter/gestures.dart';
 import 'dart:math';
 
-import 'package:hue_rotation/hue_rotation.dart';
+import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
+import 'package:hue_rotation/hue_rotation.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:vitrine/data/services/firestore/firestore_shop_service.dart';
 import 'package:vitrine/domain/entities/product.dart';
+import 'package:vitrine/domain/entities/shop.dart';
+import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
+import 'package:vitrine/ui/shop/shop_page.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
+import 'package:vitrine/view_model/stream_controller/strem_controller_view_model/stream_controller_view_model.dart';
+
+class _ProductState {}
+
+class ProductPagePresenter extends StreamControllerViewModel<_ProductState> {
+  final _state = _ProductState();
+  final _datasource = FirestoreShopService();
+  @override
+  _ProductState get state => _state;
+
+  Future<Either<DomainError, Shop>> prepareShop({required Product by}) {
+    return _datasource.findShopByProduct(product: by);
+  }
+}
 
 class ProductPage extends StatefulWidget {
   final Product product;
@@ -19,9 +40,11 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage>
     with TickerProviderStateMixin {
+  final _presenter = ProductPagePresenter();
   final _pageController = PageController();
   final _currentPageNotifier = ValueNotifier<int>(0);
   late AnimationController _animationController;
+  late Future<Either<DomainError, Shop>> futureShop;
 
   double dragOffset = 0;
   double get dragOffsetGetter => dragOffset;
@@ -29,6 +52,7 @@ class _ProductPageState extends State<ProductPage>
   @override
   void initState() {
     super.initState();
+    futureShop = _presenter.prepareShop(by: widget.product);
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
@@ -110,6 +134,7 @@ class _ProductPageState extends State<ProductPage>
                   product: widget.product,
                   pageNotifier: _currentPageNotifier,
                   itemCount: widget.product.medias.length,
+                  futureShop: futureShop,
                 ),
                 Positioned.fill(
                   child: Align(
@@ -154,12 +179,14 @@ class ProductPageInterface extends StatelessWidget {
   final ValueNotifier<int> pageNotifier;
   final int itemCount;
   final Product product;
+  final Future<Either<DomainError, Shop>> futureShop;
 
   const ProductPageInterface({
     Key? key,
     required this.pageNotifier,
     required this.itemCount,
     required this.product,
+    required this.futureShop,
   })  : assert(itemCount > 0),
         super(key: key);
 
@@ -193,7 +220,7 @@ class ProductPageInterface extends StatelessWidget {
             //       ?.copyWith(color: Colors.white.withOpacity(0.8)),
             // ),
             const SizedBox(height: 8),
-            Text(
+            CachedTranslatedText(
               product.title,
               style: Theme.of(context)
                   .textTheme
@@ -201,7 +228,7 @@ class ProductPageInterface extends StatelessWidget {
                   ?.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 8),
-            Text(
+            CachedTranslatedText(
               product.overview,
               style: Theme.of(context)
                   .textTheme
@@ -225,14 +252,14 @@ class ProductPageInterface extends StatelessWidget {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) =>
-                              ExternalProfile(product: product),
+                              ShopPage(futureShop: futureShop),
                         ),
                       );
                     },
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        CachedTranslatedText(
                           "Ver loja",
                           style:
                               Theme.of(context).textTheme.bodyText1?.copyWith(

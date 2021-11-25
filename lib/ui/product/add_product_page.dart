@@ -76,15 +76,7 @@ class AddProductViewModel extends StreamControllerViewModel<_AddProductState> {
             .putFile(e);
         images.add(await saved.ref.getDownloadURL());
       }
-      // addProduct.addProduct(
-      //   Product(
-      //     name: state.name,
-      //     description: state.description,
-      //     price: state.price,
-      //     images: images,
-      //     ownerId: userId,
-      //   ),
-      // );
+
       setState(() {
         state.isLoading = false;
       });
@@ -150,13 +142,16 @@ class _AddProductPageState extends State<AddProductPage> {
                       const SizedBox(height: 8),
                       TextButton(
                         onPressed: () async {
-                          final pickedFileList = await _picker.pickMultiImage();
-                          setState(() {
-                            _imageFileList = pickedFileList;
-                            if (_imageFileList != null) {
-                              _presenter.onFilesChange(_imageFileList!);
-                            }
-                          });
+                          final pickedFileList = await _picker.pickImage(
+                              source: ImageSource.camera);
+                          if (pickedFileList != null) {
+                            setState(() {
+                              _imageFileList = [pickedFileList];
+                              if (_imageFileList != null) {
+                                _presenter.onFilesChange(_imageFileList!);
+                              }
+                            });
+                          }
                         },
                         child: Text(
                           "Selecionar imagens",

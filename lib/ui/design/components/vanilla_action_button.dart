@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
+import 'package:vitrine/ui/util/cached_translated_text.dart';
 
 class VanillaActionButton extends StatelessWidget {
   final String title;
@@ -50,7 +51,7 @@ class VanillaActionButton extends StatelessWidget {
                 colorScheme == Brightness.light ? Colors.black : Colors.white,
           ),
         ),
-        title: Text(
+        title: CachedTranslatedText(
           title,
           style: Theme.of(context).textTheme.bodyText2?.copyWith(
               fontWeight: FontWeight.bold,
