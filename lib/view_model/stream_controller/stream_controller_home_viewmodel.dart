@@ -1,9 +1,7 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:vitrine/data/services/firestore/firestore_product_service.dart';
 import 'package:vitrine/domain/entities/product.dart';
-import 'package:vitrine/infra/models/firestore/firestore_product.dart';
 import 'package:vitrine/view_model/stream_controller/strem_controller_view_model/stream_controller_view_model.dart';
 
 class _HomeViewModelState {

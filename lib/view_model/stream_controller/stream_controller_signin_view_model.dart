@@ -86,9 +86,12 @@ class StreamControllerSignInViewModel implements SignInViewModel {
       );
       setState(() {
         _state.isLoading = false;
-        result.fold((error) {
-          _state.formError = error;
-        }, (result) => callback());
+        result.fold(
+          (error) {
+            _state.formError = error;
+          },
+          (result) => callback(),
+        );
       });
     }
   }

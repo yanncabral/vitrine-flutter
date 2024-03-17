@@ -7,50 +7,50 @@ import 'package:vitrine/domain/value_objects/password.dart';
 import 'package:vitrine/main/factory/domain/view_models/signin_view_model_factory.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
 import 'package:vitrine/ui/util/domain_error_messages.dart';
 
 class SignInPage extends StatelessWidget {
   final void Function() onSwitchPress;
   final _presenter = SignInViewModelFactory.factory;
 
-  SignInPage({Key? key, required this.onSwitchPress}) : super(key: key);
+  SignInPage({super.key, required this.onSwitchPress});
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StreamBuilder<bool>(
-            stream: _presenter.isLoadingState,
-            builder: (context, isLoadingSnapshot) {
-              return isLoadingSnapshot.data == true
-                  ? LinearProgressIndicator(
-                      color: VanillaColorScheme.secondary,
-                      backgroundColor:
-                          VanillaColorScheme.secondary.withOpacity(0.4),
-                    )
-                  : const SizedBox(height: 4);
-            }),
+          stream: _presenter.isLoadingState,
+          builder: (context, isLoadingSnapshot) {
+            return isLoadingSnapshot.data == true
+                ? LinearProgressIndicator(
+                    color: VanillaColorScheme.secondary,
+                    backgroundColor:
+                        VanillaColorScheme.secondary.withOpacity(0.4),
+                  )
+                : const SizedBox(height: 4);
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CachedTranslatedText(
+              Text(
                 "Entrar",
                 style: Theme.of(context)
                     .textTheme
-                    .headline2
+                    .displayMedium
                     ?.copyWith(color: VanillaColorScheme.black),
               ),
               const SizedBox(height: 32),
               socialLoginButtons(),
               const SizedBox(height: 32),
-              CachedTranslatedText(
+              Text(
                 "Ou com email",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyLarge
                     ?.copyWith(color: VanillaColorScheme.medium),
               ),
               const SizedBox(height: 32),
@@ -58,17 +58,17 @@ class SignInPage extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  CachedTranslatedText(
+                  Text(
                     "Ainda não tem uma conta?",
-                    style: Theme.of(context).textTheme.caption?.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: VanillaColorScheme.medium,
                         ),
                   ),
                   TextButton(
                     onPressed: onSwitchPress,
-                    child: CachedTranslatedText(
+                    child: Text(
                       "Cadastre-se",
-                      style: Theme.of(context).textTheme.caption?.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: VanillaColorScheme.secondary,
                           ),
                     ),
@@ -105,17 +105,18 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {},
                   child: RichText(
                     text: TextSpan(
-                        text: "Esqueceu sua senha? ",
-                        style: Theme.of(context).textTheme.caption,
-                        children: [
-                          TextSpan(
-                            text: "Recupere",
-                            style:
-                                Theme.of(context).textTheme.caption?.copyWith(
-                                      color: VanillaColorScheme.secondary,
-                                    ),
-                          ),
-                        ]),
+                      text: "Esqueceu sua senha? ",
+                      style: Theme.of(context).textTheme.bodySmall,
+                      children: [
+                        TextSpan(
+                          text: "Recupere",
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: VanillaColorScheme.secondary,
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -159,160 +160,157 @@ class SignInPage extends StatelessWidget {
 
   Widget form(BuildContext context) {
     return StreamBuilder<bool>(
-        stream: _presenter.isLoadingState,
-        builder: (context, loadingSnapshot) {
-          return Column(
-            children: [
-              StreamBuilder<Either<ValidationError, EmailAddress>?>(
-                  stream: _presenter.emailState,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      enabled: !(loadingSnapshot.data == true),
-                      textInputAction: TextInputAction.next,
-                      onChanged: _presenter.onEmailChange,
-                      keyboardType: TextInputType.emailAddress,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.black,
-                          ),
-                      cursorColor: VanillaColorScheme.dark,
-                      decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        errorText: snapshot.data?.fold(
-                          (l) {
-                            switch (l) {
-                              case ValidationError.empty:
-                                return "Esse campo é obrigatório.";
-                              case ValidationError.invalid:
-                                return "Esse e-mail é inválido.";
-                              default:
-                                return null;
-                            }
-                          },
-                          (r) => null,
-                        ),
-                        labelText: "Email",
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(
-                              color: VanillaColorScheme.black.withOpacity(0.4),
-                            ),
-                        filled: true,
-                        fillColor: VanillaColorScheme.light,
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
+      stream: _presenter.isLoadingState,
+      builder: (context, loadingSnapshot) {
+        return Column(
+          children: [
+            StreamBuilder<Either<ValidationError, EmailAddress>?>(
+              stream: _presenter.emailState,
+              builder: (context, snapshot) {
+                return TextField(
+                  enabled: !(loadingSnapshot.data == true),
+                  textInputAction: TextInputAction.next,
+                  onChanged: _presenter.onEmailChange,
+                  keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: VanillaColorScheme.black,
                       ),
-                    );
-                  }),
-              const SizedBox(height: 8),
-              StreamBuilder<Either<ValidationError, Password>?>(
-                  stream: _presenter.passwordState,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      enabled: !(loadingSnapshot.data == true),
-                      onEditingComplete: FocusScope.of(context).unfocus,
-                      onChanged: _presenter.onPasswordChange,
-                      obscureText: true,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.black,
-                          ),
-                      cursorColor: VanillaColorScheme.dark,
-                      decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        errorText: snapshot.data?.fold(
-                          (l) {
-                            switch (l) {
-                              case ValidationError.empty:
-                                return "Esse campo é obrigatório.";
-                              case ValidationError.invalid:
-                                return "Senha inválida.";
-                              case ValidationError.tooShort:
-                                return "Senha curta demais.";
-                            }
-                          },
-                          (r) => null,
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        labelText: "Senha",
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(
-                              color: VanillaColorScheme.black.withOpacity(0.4),
-                            ),
-                        filled: true,
-                        fillColor: VanillaColorScheme.light,
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
+                  cursorColor: VanillaColorScheme.dark,
+                  decoration: InputDecoration(
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
                       ),
-                    );
-                  }),
-            ],
-          );
-        });
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    errorText: snapshot.data?.fold(
+                      (l) {
+                        switch (l) {
+                          case ValidationError.empty:
+                            return "Esse campo é obrigatório.";
+                          case ValidationError.invalid:
+                            return "Esse e-mail é inválido.";
+                          default:
+                            return null;
+                        }
+                      },
+                      (r) => null,
+                    ),
+                    labelText: "Email",
+                    labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: VanillaColorScheme.black.withOpacity(0.4),
+                        ),
+                    filled: true,
+                    fillColor: VanillaColorScheme.light,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StreamBuilder<Either<ValidationError, Password>?>(
+              stream: _presenter.passwordState,
+              builder: (context, snapshot) {
+                return TextField(
+                  enabled: !(loadingSnapshot.data == true),
+                  onEditingComplete: FocusScope.of(context).unfocus,
+                  onChanged: _presenter.onPasswordChange,
+                  obscureText: true,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: VanillaColorScheme.black,
+                      ),
+                  cursorColor: VanillaColorScheme.dark,
+                  decoration: InputDecoration(
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    errorText: snapshot.data?.fold(
+                      (l) {
+                        switch (l) {
+                          case ValidationError.empty:
+                            return "Esse campo é obrigatório.";
+                          case ValidationError.invalid:
+                            return "Senha inválida.";
+                          case ValidationError.tooShort:
+                            return "Senha curta demais.";
+                        }
+                      },
+                      (r) => null,
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    labelText: "Senha",
+                    labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: VanillaColorScheme.black.withOpacity(0.4),
+                        ),
+                    filled: true,
+                    fillColor: VanillaColorScheme.light,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Row socialLoginButtons() {

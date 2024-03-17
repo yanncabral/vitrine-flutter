@@ -3,60 +3,60 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 
 final textTheme = TextTheme(
-  headline1: GoogleFonts.overpass(
+  displayLarge: GoogleFonts.overpass(
     // fontSize: 60,
     fontWeight: FontWeight.bold,
     height: 1.2,
     letterSpacing: -2,
   ),
-  headline2: GoogleFonts.overpass(
+  displayMedium: GoogleFonts.overpass(
     // fontSize: 34,
     fontWeight: FontWeight.bold,
     height: 1.2,
     letterSpacing: -1,
   ),
-  headline3: GoogleFonts.overpass(
+  displaySmall: GoogleFonts.overpass(
     // fontSize: 22,
     fontWeight: FontWeight.bold,
     height: 1.45,
     letterSpacing: -1,
   ),
-  headline4: GoogleFonts.overpass(
+  headlineMedium: GoogleFonts.overpass(
     // fontSize: 16,
     fontWeight: FontWeight.bold,
     height: 1.25,
     letterSpacing: -1,
   ),
-  headline5: GoogleFonts.overpass(
+  headlineSmall: GoogleFonts.overpass(
     // fontSize: 14,
     fontWeight: FontWeight.bold,
     height: 1.4,
     letterSpacing: -1,
   ),
-  headline6: GoogleFonts.overpass(
+  titleLarge: GoogleFonts.overpass(
     // fontSize: 14,
     fontWeight: FontWeight.normal,
     height: 1.4,
     letterSpacing: -1,
   ),
-  bodyText1: GoogleFonts.overpass(
+  bodyLarge: GoogleFonts.overpass(
       // fontSize: 17,
       // fontWeight: FontWeight.normal,
       // letterSpacing: -1,
       ),
-  bodyText2: GoogleFonts.overpass(
+  bodyMedium: GoogleFonts.overpass(
       // fontSize: 12,
       // fontWeight: FontWeight.normal,
       // height: 1.5,
       // letterSpacing: -1,
       ),
-  caption: GoogleFonts.overpass(
+  bodySmall: GoogleFonts.overpass(
       // fontSize: 14,
       // fontWeight: FontWeight.bold,
       // height: 1.3,
       // letterSpacing: 1,
       ),
-  button: GoogleFonts.overpass(
+  labelLarge: GoogleFonts.overpass(
     color: VanillaColorScheme.error,
   ),
 );

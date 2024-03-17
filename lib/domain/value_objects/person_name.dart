@@ -4,7 +4,7 @@ import 'package:vitrine/validation/not_empty_validator.dart';
 import 'package:vitrine/validation/too_short_validator.dart';
 
 class PersonName extends ValueObject<String> {
-  PersonName(String data) : super(data) {
+  PersonName(super.data) {
     if (validationError != null) {
       throw validationError!;
     }

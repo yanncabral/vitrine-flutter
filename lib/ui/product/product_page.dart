@@ -1,11 +1,10 @@
-// import 'package:flutter/gestures.dart';
 import 'dart:math';
 
 import 'package:dartz/dartz.dart' hide State;
 import 'package:flutter/material.dart';
 import 'package:hue_rotation/hue_rotation.dart';
 import 'package:page_view_indicators/page_view_indicators.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:vitrine/data/services/firestore/firestore_shop_service.dart';
 import 'package:vitrine/domain/entities/product.dart';
@@ -14,7 +13,7 @@ import 'package:vitrine/domain/error/domain_error.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
 import 'package:vitrine/ui/shop/shop_page.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
+
 import 'package:vitrine/view_model/stream_controller/strem_controller_view_model/stream_controller_view_model.dart';
 
 class _ProductState {}
@@ -33,7 +32,7 @@ class ProductPagePresenter extends StreamControllerViewModel<_ProductState> {
 class ProductPage extends StatefulWidget {
   final Product product;
 
-  const ProductPage({Key? key, required this.product}) : super(key: key);
+  const ProductPage({super.key, required this.product});
   @override
   State<ProductPage> createState() => _ProductPageState();
 }
@@ -71,7 +70,7 @@ class _ProductPageState extends State<ProductPage>
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: Container(
+        child: ColoredBox(
           color: Colors.black,
           child: GestureDetector(
             onVerticalDragEnd: (details) {
@@ -152,7 +151,7 @@ class _ProductPageState extends State<ProductPage>
                       ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
@@ -182,13 +181,12 @@ class ProductPageInterface extends StatelessWidget {
   final Future<Either<DomainError, Shop>> futureShop;
 
   const ProductPageInterface({
-    Key? key,
+    super.key,
     required this.pageNotifier,
     required this.itemCount,
     required this.product,
     required this.futureShop,
-  })  : assert(itemCount > 0),
-        super(key: key);
+  }) : assert(itemCount > 0);
 
   @override
   Widget build(BuildContext context) {
@@ -220,19 +218,19 @@ class ProductPageInterface extends StatelessWidget {
             //       ?.copyWith(color: Colors.white.withOpacity(0.8)),
             // ),
             const SizedBox(height: 8),
-            CachedTranslatedText(
+            Text(
               product.title,
               style: Theme.of(context)
                   .textTheme
-                  .headline4
+                  .headlineMedium
                   ?.copyWith(color: Colors.white),
             ),
             const SizedBox(height: 8),
-            CachedTranslatedText(
+            Text(
               product.overview,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   ?.copyWith(color: Colors.white.withOpacity(0.8)),
             ),
             const SizedBox(height: 16),
@@ -259,10 +257,10 @@ class ProductPageInterface extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CachedTranslatedText(
+                        Text(
                           "Ver loja",
                           style:
-                              Theme.of(context).textTheme.bodyText1?.copyWith(
+                              Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -281,7 +279,9 @@ class ProductPageInterface extends StatelessWidget {
                       "R\$${product.price.toStringAsFixed(2).replaceFirst('.', ',')}",
                   onPressed: () async {
                     // TODO: Change to correct url
-                    await launch("https://instagram.com/${product.ownerId}");
+                    await launchUrlString(
+                      "https://instagram.com/${product.ownerId}",
+                    );
                   },
                   colorScheme: Brightness.light,
                 ),
@@ -296,9 +296,9 @@ class ProductPageInterface extends StatelessWidget {
 
 class ExternalProfile extends StatelessWidget {
   const ExternalProfile({
-    Key? key,
+    super.key,
     required this.product,
-  }) : super(key: key);
+  });
 
   final Product product;
 
@@ -308,7 +308,7 @@ class ExternalProfile extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         title: const Text("@dizyann"),
-        titleTextStyle: Theme.of(context).textTheme.headline3?.copyWith(
+        titleTextStyle: Theme.of(context).textTheme.displaySmall?.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -331,7 +331,9 @@ class ExternalProfile extends StatelessWidget {
                     title:
                         "R\$${product.price.toStringAsFixed(2).replaceFirst('.', ',')}",
                     onPressed: () async {
-                      await launch("https://instagram.com/${product.ownerId}");
+                      await launchUrlString(
+                        "https://instagram.com/${product.ownerId}",
+                      );
                     },
                     colorScheme: Brightness.dark,
                   ),

@@ -5,7 +5,6 @@ import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/home/home_page.dart';
 import 'package:vitrine/ui/main/bottom_navbar_tabs.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -38,8 +37,8 @@ class _MainPageState extends State<MainPage> {
                 ),
               ]
             : [],
-        title: CachedTranslatedText(_currentNavbarTab.title),
-        titleTextStyle: Theme.of(context).textTheme.headline4?.copyWith(
+        title: Text(_currentNavbarTab.title),
+        titleTextStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(
               color: Colors.black,
               fontWeight: FontWeight.bold,
             ),
@@ -85,14 +84,14 @@ class _MainPageState extends State<MainPage> {
         itemCount: BottomNavbarTabs.values.length,
         controller: _pageController,
         itemBuilder: (BuildContext context, int index) {
-          final _page = BottomNavbarTabs.values[index];
-          switch (_page) {
+          final page = BottomNavbarTabs.values[index];
+          switch (page) {
             case BottomNavbarTabs.home:
               return HomePage();
             case BottomNavbarTabs.search:
-              return const Center(child: CachedTranslatedText("Search"));
+              return const Center(child: Text("Search"));
             case BottomNavbarTabs.archived:
-              return const Center(child: CachedTranslatedText("Archive"));
+              return const Center(child: Text("Archive"));
             case BottomNavbarTabs.profile:
               return const ProfilePage();
           }

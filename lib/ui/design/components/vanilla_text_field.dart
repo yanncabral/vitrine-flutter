@@ -10,14 +10,14 @@ class VanillaTextField extends StatelessWidget {
   final TextInputType? keyboardType;
 
   const VanillaTextField({
-    Key? key,
+    super.key,
     required this.labelText,
     required this.onChange,
     this.errorText,
     this.enabled,
     this.textInputAction,
     this.keyboardType,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class VanillaTextField extends StatelessWidget {
       textInputAction: textInputAction,
       onChanged: onChange,
       keyboardType: keyboardType,
-      style: Theme.of(context).textTheme.caption?.copyWith(
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
             color: VanillaColorScheme.black,
           ),
       cursorColor: VanillaColorScheme.dark,
@@ -47,7 +47,7 @@ class VanillaTextField extends StatelessWidget {
         ),
         errorText: errorText,
         labelText: labelText,
-        labelStyle: Theme.of(context).textTheme.caption?.copyWith(
+        labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
               color: VanillaColorScheme.black.withOpacity(0.4),
             ),
         filled: true,

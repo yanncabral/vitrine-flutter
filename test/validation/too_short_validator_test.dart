@@ -18,8 +18,10 @@ void main() {
     });
     test("Should throws a RangeError exception if minimun lenght is negative",
         () {
-      expect(() => TooShortValidator(minimumLenght: -2),
-          throwsA(isA<AssertionError>()));
+      expect(
+        () => TooShortValidator(minimumLenght: -2),
+        throwsA(isA<AssertionError>()),
+      );
     });
   });
 }

@@ -107,108 +107,113 @@ class _AddProductPageState extends State<AddProductPage> {
         foregroundColor: Colors.black,
       ),
       body: SafeArea(
-        child: LayoutBuilder(builder: (context, constraint) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraint.maxHeight),
-              child: IntrinsicHeight(
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Adicionar produto",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline2
-                            ?.copyWith(color: VanillaColorScheme.black),
-                      ),
-                      const SizedBox(height: 32),
-                      VanillaTextField(
-                        labelText: "Nome do produto",
-                        onChange: _presenter.onNameChange,
-                      ),
-                      const SizedBox(height: 8),
-                      VanillaTextField(
-                        labelText: "Descrição do produto",
-                        onChange: _presenter.onDescriptionChange,
-                      ),
-                      const SizedBox(height: 8),
-                      VanillaTextField(
-                        labelText: "Preço do produto",
-                        onChange: _presenter.onPriceChange,
-                      ),
-                      const SizedBox(height: 8),
-                      TextButton(
-                        onPressed: () async {
-                          final pickedFileList = await _picker.pickImage(
-                              source: ImageSource.camera);
-                          if (pickedFileList != null) {
-                            setState(() {
-                              _imageFileList = [pickedFileList];
-                              if (_imageFileList != null) {
-                                _presenter.onFilesChange(_imageFileList!);
-                              }
-                            });
-                          }
-                        },
-                        child: Text(
-                          "Selecionar imagens",
+        child: LayoutBuilder(
+          builder: (context, constraint) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Adicionar produto",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText1
-                              ?.copyWith(color: VanillaColorScheme.secondary),
+                              .displayMedium
+                              ?.copyWith(color: VanillaColorScheme.black),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 8,
-                        children: _imageFileList
-                                ?.map(
-                                  (e) => FractionallySizedBox(
-                                    widthFactor: 0.2,
-                                    child: Image.file(File(e.path)),
-                                  ),
-                                )
-                                .toList() ??
-                            [],
-                      ),
-                      const Spacer(),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Spacer(),
-                          StreamBuilder<bool?>(
+                        const SizedBox(height: 32),
+                        VanillaTextField(
+                          labelText: "Nome do produto",
+                          onChange: _presenter.onNameChange,
+                        ),
+                        const SizedBox(height: 8),
+                        VanillaTextField(
+                          labelText: "Descrição do produto",
+                          onChange: _presenter.onDescriptionChange,
+                        ),
+                        const SizedBox(height: 8),
+                        VanillaTextField(
+                          labelText: "Preço do produto",
+                          onChange: _presenter.onPriceChange,
+                        ),
+                        const SizedBox(height: 8),
+                        TextButton(
+                          onPressed: () async {
+                            final pickedFileList = await _picker.pickImage(
+                              source: ImageSource.camera,
+                            );
+                            if (pickedFileList != null) {
+                              setState(() {
+                                _imageFileList = [pickedFileList];
+                                if (_imageFileList != null) {
+                                  _presenter.onFilesChange(_imageFileList!);
+                                }
+                              });
+                            }
+                          },
+                          child: Text(
+                            "Selecionar imagens",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: VanillaColorScheme.secondary),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: _imageFileList
+                                  ?.map(
+                                    (e) => FractionallySizedBox(
+                                      widthFactor: 0.2,
+                                      child: Image.file(File(e.path)),
+                                    ),
+                                  )
+                                  .toList() ??
+                              [],
+                        ),
+                        const Spacer(),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Spacer(),
+                            StreamBuilder<bool?>(
                               stream: _presenter.isFormValid,
                               builder: (context, formValidSnapshot) {
                                 return StreamBuilder<bool?>(
-                                    stream: _presenter.isLoading,
-                                    builder: (context, loadingSnapshot) {
-                                      return VanillaActionButton(
-                                        enabled: loadingSnapshot.data != true &&
-                                            formValidSnapshot.data == true,
-                                        title: "Adicionar",
-                                        onPressed: () async {
-                                          await _presenter.submit(() {
-                                            Navigator.of(context).pop();
-                                          });
-                                        },
-                                        colorScheme: Brightness.dark,
-                                      );
-                                    });
-                              }),
-                        ],
-                      ),
-                    ],
+                                  stream: _presenter.isLoading,
+                                  builder: (context, loadingSnapshot) {
+                                    return VanillaActionButton(
+                                      enabled: loadingSnapshot.data != true &&
+                                          formValidSnapshot.data == true,
+                                      title: "Adicionar",
+                                      onPressed: () async {
+                                        await _presenter.submit(() {
+                                          Navigator.of(context).pop();
+                                        });
+                                      },
+                                      colorScheme: Brightness.dark,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        }),
+            );
+          },
+        ),
       ),
     );
   }

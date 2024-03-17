@@ -37,8 +37,9 @@ class FirestoreProductsDatasource
   }
 
   @override
-  Future<Either<DomainError, Iterable<Product>>> index(
-      {required int page}) async {
+  Future<Either<DomainError, Iterable<Product>>> index({
+    required int page,
+  }) async {
     final snapshot = await _remote
         .withConverter<Product>(
           fromFirestore: (snapshots, _) =>
@@ -52,12 +53,16 @@ class FirestoreProductsDatasource
   }
 
   @override
-  Future<Either<DomainError, Iterable<Product>>> findByShop(
-      {required Shop shop, required int page}) async {
+  Future<Either<DomainError, Iterable<Product>>> findByShop({
+    required Shop shop,
+    required int page,
+  }) async {
     final snapshot = await _remote
-        .where("owner",
-            isEqualTo:
-                FirebaseFirestore.instance.collection("shops").doc(shop.id))
+        .where(
+          "owner",
+          isEqualTo:
+              FirebaseFirestore.instance.collection("shops").doc(shop.id),
+        )
         .withConverter<Product>(
           fromFirestore: (snapshots, _) =>
               FirestoreProduct.fromJson(snapshots.data()!, snapshots.id),

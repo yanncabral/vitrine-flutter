@@ -1,7 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
-
-import 'package:bye_bye_localization/bye_bye_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +8,7 @@ import 'package:vitrine/ui/category/category_page.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
 import 'package:vitrine/ui/product/product_page.dart';
 import 'package:vitrine/ui/profile/profile_page.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
+
 import 'package:vitrine/ui/util/category_info.dart';
 import 'package:vitrine/view_model/stream_controller/stream_controller_home_viewmodel.dart';
 
@@ -49,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               blurRadius: 40,
               offset: Offset(0, 20),
               color: Colors.black12,
-            )
+            ),
           ],
         ),
         child: Column(
@@ -64,10 +61,10 @@ class _HomePageState extends State<HomePage> {
               leading: const CircleAvatar(
                 backgroundImage: AssetImage("assets/mareza.jpg"),
               ),
-              title: CachedTranslatedText(
+              title: Text(
                 "TORNOZELEIRA BUZIOS".toUpperCase(),
               ),
-              subtitle: CachedTranslatedText(
+              subtitle: Text(
                 "MAREZA ARTESANATO".toUpperCase(),
                 // style: Theme.of(context).textTheme.ti,
               ),
@@ -99,48 +96,50 @@ class _HomePageState extends State<HomePage> {
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
-          child: CachedTranslatedText(
+          child: Text(
             "Categorias",
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: Colors.black),
           ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: Row(children: [
-            const SizedBox(width: 16),
-            ...Category.values.map((category) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: MaterialButton(
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => CategoryPage(category: category),
+          child: Row(
+            children: [
+              const SizedBox(width: 16),
+              ...Category.values.map((category) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: MaterialButton(
+                    onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => CategoryPage(category: category),
+                      ),
+                    ),
+                    padding: EdgeInsets.zero,
+                    child: Column(
+                      children: [
+                        Hero(
+                          tag: category.title,
+                          child: CircleAvatar(
+                            radius: 36,
+                            backgroundImage: AssetImage(category.imagePath),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          category.title,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ],
                     ),
                   ),
-                  padding: EdgeInsets.zero,
-                  child: Column(
-                    children: [
-                      Hero(
-                        tag: category.title,
-                        child: CircleAvatar(
-                          radius: 36,
-                          backgroundImage: AssetImage(category.imagePath),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      CachedTranslatedText(
-                        category.title,
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList()
-          ]),
+                );
+              }).toList(),
+            ],
+          ),
         ),
       ],
     );
@@ -151,11 +150,11 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          CachedTranslatedText(
+          Text(
             "Recomendados pra você",
             style: Theme.of(context)
                 .textTheme
-                .headline5
+                .headlineSmall
                 ?.copyWith(color: Colors.black),
           ),
         ],
@@ -169,42 +168,46 @@ class _HomePageState extends State<HomePage> {
       stream: _presenter.products,
       builder: (context, snapshot) {
         final product = snapshot.data?.first ?? ProductSample.sample;
-        return CustomScrollView(slivers: [
-          SliverToBoxAdapter(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: promotedProductSection(product),
-              ),
-              categories(),
-              recommended(),
-            ]),
-          ),
-          if (snapshot.data != null) ...{
-            SliverSafeArea(
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) => Column(
-                    children: [
-                      MaterialButton(
-                        onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ProductPage(product: snapshot.data![index]),
-                          ),
-                        ),
-                        child: ItemCard(product: snapshot.data![index]),
-                      ),
-                      const Divider(),
-                    ],
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: promotedProductSection(product),
                   ),
-                  childCount: snapshot.data!.length,
+                  categories(),
+                  recommended(),
+                ],
+              ),
+            ),
+            if (snapshot.data != null) ...{
+              SliverSafeArea(
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => Column(
+                      children: [
+                        MaterialButton(
+                          onPressed: () => Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductPage(product: snapshot.data![index]),
+                            ),
+                          ),
+                          child: ItemCard(product: snapshot.data![index]),
+                        ),
+                        const Divider(),
+                      ],
+                    ),
+                    childCount: snapshot.data!.length,
+                  ),
                 ),
               ),
-            )
-          }
-        ]);
+            },
+          ],
+        );
       },
     );
   }

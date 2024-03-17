@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
 
 class OnboardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Widget background() => SizedBox(
-          height: double.infinity,
-          width: double.infinity,
+    Widget background() => SizedBox.expand(
           child: Image.asset(
             "assets/onboarding.jpg",
             fit: BoxFit.cover,
@@ -54,20 +51,20 @@ class OnboardingInterface extends StatelessWidget {
           children: [
             FractionallySizedBox(
               widthFactor: 0.5,
-              child: CachedTranslatedText(
+              child: Text(
                 "Finalmente você chegou ao Vitrine",
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .headlineMedium
                     ?.copyWith(color: Colors.white),
               ),
             ),
             const SizedBox(height: 16),
-            CachedTranslatedText(
+            Text(
               "Descubra produtos que te merecem oferecidos por gente como a gente",
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1
+                  .bodyLarge
                   ?.copyWith(color: Colors.white.withOpacity(0.8)),
             ),
             const SizedBox(height: 32),
@@ -82,11 +79,11 @@ class OnboardingInterface extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CachedTranslatedText(
+                        Text(
                           "Explorar ",
                           style: Theme.of(context)
                               .textTheme
-                              .bodyText2
+                              .bodyMedium
                               ?.copyWith(color: Colors.white),
                         ),
                         const Icon(

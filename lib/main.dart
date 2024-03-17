@@ -1,4 +1,3 @@
-import 'package:bye_bye_localization/bye_bye_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,12 +8,6 @@ import 'package:vitrine/ui/design/text_theme.dart';
 import 'package:vitrine/ui/main/main_page.dart';
 import 'package:vitrine/ui/onboarding_page/onboarding_page.dart';
 import 'package:vitrine/ui/product/add_product_page.dart';
-
-Future<bool> initWidget() async {
-  return TranslationManager().init(
-    originLanguage: Languages.PORTUGUESE,
-  );
-}
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -32,7 +25,7 @@ Future _showNotificationWithoutSound() async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initWidget();
+
   const initializationSettingsAndroid =
       AndroidInitializationSettings('@mipmap/ic_launcher');
   const initializationSettings =
@@ -72,14 +65,15 @@ class _AppState extends State<App> {
 
           if (initializationSnapshot.connectionState == ConnectionState.done) {
             return StreamBuilder<AuthenticationState>(
-                stream: enviroment.authenticationState,
-                builder: (context, snapshot) {
-                  if (snapshot.data == AuthenticationState.loggedIn) {
-                    return MainPage();
-                  } else {
-                    return OnboardingPage();
-                  }
-                });
+              stream: enviroment.authenticationState,
+              builder: (context, snapshot) {
+                if (snapshot.data == AuthenticationState.loggedIn) {
+                  return MainPage();
+                } else {
+                  return OnboardingPage();
+                }
+              },
+            );
           }
           return const Text("carregando? rs"); // TODO: Add a loading screen
         },

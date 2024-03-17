@@ -60,34 +60,37 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           ),
         ],
       ),
-      body: LayoutBuilder(builder: (context, constraint) {
-        return SingleChildScrollView(
-          controller: _scrollController,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minHeight: constraint.maxHeight),
-            child: IntrinsicHeight(
-              child: SafeArea(
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: currentAuthenticationPage == _AuthenticationPage.signIn
-                      ? SignInPage(
-                          onSwitchPress: () => setState(() {
-                            currentAuthenticationPage =
-                                _AuthenticationPage.signUp;
-                          }),
-                        )
-                      : SignUpPage(
-                          onSwitchPress: () => setState(() {
-                            currentAuthenticationPage =
-                                _AuthenticationPage.signIn;
-                          }),
-                        ),
+      body: LayoutBuilder(
+        builder: (context, constraint) {
+          return SingleChildScrollView(
+            controller: _scrollController,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraint.maxHeight),
+              child: IntrinsicHeight(
+                child: SafeArea(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 200),
+                    child:
+                        currentAuthenticationPage == _AuthenticationPage.signIn
+                            ? SignInPage(
+                                onSwitchPress: () => setState(() {
+                                  currentAuthenticationPage =
+                                      _AuthenticationPage.signUp;
+                                }),
+                              )
+                            : SignUpPage(
+                                onSwitchPress: () => setState(() {
+                                  currentAuthenticationPage =
+                                      _AuthenticationPage.signIn;
+                                }),
+                              ),
+                  ),
                 ),
               ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

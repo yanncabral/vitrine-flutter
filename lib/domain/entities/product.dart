@@ -32,11 +32,12 @@ extension ProductSample on Product {
         price: 38,
         medias: [
           Media(
-              blurHash: "00G8s0",
-              url:
-                  "https://firebasestorage.googleapis.com/v0/b/vitrine-51eda.appspot.com/o/images%2F83340953_267094430939194_4693379384493417560_n.jpg?alt=media&token=a5158443-843b-4a9c-9f6e-7e32d80d86b4",
-              altText: "Mulher negra vestindo acessórios de carnaval",
-              mediaType: MediaType.photo),
+            blurHash: "00G8s0",
+            url:
+                "https://firebasestorage.googleapis.com/v0/b/vitrine-51eda.appspot.com/o/images%2F83340953_267094430939194_4693379384493417560_n.jpg?alt=media&token=a5158443-843b-4a9c-9f6e-7e32d80d86b4",
+            altText: "Mulher negra vestindo acessórios de carnaval",
+            mediaType: MediaType.photo,
+          ),
         ],
         category: Category.accessories,
         ownerId: "TdY2e7r1ncauUs2L5IFfEguvc9s2",

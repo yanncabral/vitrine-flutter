@@ -9,50 +9,50 @@ import 'package:vitrine/main/factory/domain/view_models/signup_view_model_factor
 import 'package:vitrine/ui/design/components/vanilla_action_button.dart';
 import 'package:vitrine/ui/design/components/vanilla_text_field.dart';
 import 'package:vitrine/ui/design/vanilla_color_scheme.dart';
-import 'package:vitrine/ui/util/cached_translated_text.dart';
 import 'package:vitrine/ui/util/domain_error_messages.dart';
 
 class SignUpPage extends StatelessWidget {
   final void Function() onSwitchPress;
   final _presenter = SignUpViewModelFactory.factory;
 
-  SignUpPage({Key? key, required this.onSwitchPress}) : super(key: key);
+  SignUpPage({super.key, required this.onSwitchPress});
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         StreamBuilder<bool>(
-            stream: _presenter.isLoadingState,
-            builder: (context, isLoadingSnapshot) {
-              return isLoadingSnapshot.data == true
-                  ? LinearProgressIndicator(
-                      color: VanillaColorScheme.secondary,
-                      backgroundColor:
-                          VanillaColorScheme.secondary.withOpacity(0.4),
-                    )
-                  : const SizedBox(height: 4);
-            }),
+          stream: _presenter.isLoadingState,
+          builder: (context, isLoadingSnapshot) {
+            return isLoadingSnapshot.data == true
+                ? LinearProgressIndicator(
+                    color: VanillaColorScheme.secondary,
+                    backgroundColor:
+                        VanillaColorScheme.secondary.withOpacity(0.4),
+                  )
+                : const SizedBox(height: 4);
+          },
+        ),
         Padding(
           padding: const EdgeInsets.all(32.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CachedTranslatedText(
+              Text(
                 "Registrar",
                 style: Theme.of(context)
                     .textTheme
-                    .headline2
+                    .displayMedium
                     ?.copyWith(color: VanillaColorScheme.black),
               ),
               const SizedBox(height: 32),
               socialLoginButtons(),
               const SizedBox(height: 32),
-              CachedTranslatedText(
+              Text(
                 "Ou com email",
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyLarge
                     ?.copyWith(color: VanillaColorScheme.medium),
               ),
               const SizedBox(height: 32),
@@ -60,17 +60,17 @@ class SignUpPage extends StatelessWidget {
               const SizedBox(height: 8),
               Row(
                 children: [
-                  CachedTranslatedText(
+                  Text(
                     "Já tem uma conta?",
-                    style: Theme.of(context).textTheme.caption?.copyWith(
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           color: VanillaColorScheme.medium,
                         ),
                   ),
                   TextButton(
                     onPressed: onSwitchPress,
-                    child: CachedTranslatedText(
+                    child: Text(
                       "Entre",
-                      style: Theme.of(context).textTheme.caption?.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: VanillaColorScheme.secondary,
                           ),
                     ),
@@ -78,20 +78,21 @@ class SignUpPage extends StatelessWidget {
                 ],
               ),
               StreamBuilder<DomainError?>(
-                  stream: _presenter.formError,
-                  builder: (context, snapshot) {
-                    if (snapshot.data != null) {
-                      return ListTile(
-                        leading: const Icon(
-                          Icons.close,
-                          color: Colors.red,
-                        ),
-                        title: Text(snapshot.data!.message()),
-                      );
-                    } else {
-                      return const SizedBox(height: 0);
-                    }
-                  }),
+                stream: _presenter.formError,
+                builder: (context, snapshot) {
+                  if (snapshot.data != null) {
+                    return ListTile(
+                      leading: const Icon(
+                        Icons.close,
+                        color: Colors.red,
+                      ),
+                      title: Text(snapshot.data!.message()),
+                    );
+                  } else {
+                    return const SizedBox(height: 0);
+                  }
+                },
+              ),
             ],
           ),
         ),
@@ -106,17 +107,18 @@ class SignUpPage extends StatelessWidget {
                   onPressed: () {},
                   child: RichText(
                     text: TextSpan(
-                        text: "Eu concordo com os ",
-                        style: Theme.of(context).textTheme.caption,
-                        children: [
-                          TextSpan(
-                            text: "Termos de Uso",
-                            style:
-                                Theme.of(context).textTheme.caption?.copyWith(
-                                      color: VanillaColorScheme.secondary,
-                                    ),
-                          ),
-                        ]),
+                      text: "Eu concordo com os ",
+                      style: Theme.of(context).textTheme.bodySmall,
+                      children: [
+                        TextSpan(
+                          text: "Termos de Uso",
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: VanillaColorScheme.secondary,
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -160,255 +162,252 @@ class SignUpPage extends StatelessWidget {
 
   Widget form(BuildContext context) {
     return StreamBuilder<bool>(
-        stream: _presenter.isLoadingState,
-        builder: (context, loadingSnapshot) {
-          return Column(
-            children: [
-              StreamBuilder<Either<ValidationError, PersonName>?>(
-                  stream: _presenter.nameState,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      enabled: !(loadingSnapshot.data == true),
-                      textCapitalization: TextCapitalization.words,
-                      textInputAction: TextInputAction.next,
-                      onChanged: _presenter.onNameChange,
-                      keyboardType: TextInputType.name,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.black,
-                          ),
-                      cursorColor: VanillaColorScheme.dark,
-                      decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        errorText: snapshot.data?.fold(
-                          (l) {
-                            switch (l) {
-                              case ValidationError.empty:
-                                return "Esse campo é obrigatório.";
-                              case ValidationError.tooShort:
-                                return "Seu nome está curto demais.";
-                              case ValidationError.invalid:
-                                return "Esse nome é inválido.";
-                              default:
-                                return null;
-                            }
-                          },
-                          (r) => null,
-                        ),
-                        labelText: "Nome",
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(
-                              color: VanillaColorScheme.black.withOpacity(0.4),
-                            ),
-                        filled: true,
-                        fillColor: VanillaColorScheme.light,
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
+      stream: _presenter.isLoadingState,
+      builder: (context, loadingSnapshot) {
+        return Column(
+          children: [
+            StreamBuilder<Either<ValidationError, PersonName>?>(
+              stream: _presenter.nameState,
+              builder: (context, snapshot) {
+                return TextField(
+                  enabled: !(loadingSnapshot.data == true),
+                  textCapitalization: TextCapitalization.words,
+                  textInputAction: TextInputAction.next,
+                  onChanged: _presenter.onNameChange,
+                  keyboardType: TextInputType.name,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: VanillaColorScheme.black,
                       ),
-                    );
-                  }),
-              const SizedBox(height: 8),
-              StreamBuilder<Either<ValidationError, EmailAddress>?>(
-                  stream: _presenter.emailState,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      enabled: !(loadingSnapshot.data == true),
-                      textInputAction: TextInputAction.next,
-                      onChanged: _presenter.onEmailChange,
-                      keyboardType: TextInputType.emailAddress,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.black,
-                          ),
-                      cursorColor: VanillaColorScheme.dark,
-                      decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        errorText: snapshot.data?.fold(
-                          (l) {
-                            switch (l) {
-                              case ValidationError.empty:
-                                return "Esse campo é obrigatório.";
-                              case ValidationError.invalid:
-                                return "Esse e-mail é inválido.";
-                              default:
-                                return null;
-                            }
-                          },
-                          (r) => null,
-                        ),
-                        labelText: "Email",
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(
-                              color: VanillaColorScheme.black.withOpacity(0.4),
-                            ),
-                        filled: true,
-                        fillColor: VanillaColorScheme.light,
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
+                  cursorColor: VanillaColorScheme.dark,
+                  decoration: InputDecoration(
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
                       ),
-                    );
-                  }),
-              const SizedBox(height: 8),
-              StreamBuilder<Either<ValidationError, Password>?>(
-                  stream: _presenter.passwordState,
-                  builder: (context, snapshot) {
-                    return TextField(
-                      enabled: !(loadingSnapshot.data == true),
-                      onEditingComplete: FocusScope.of(context).unfocus,
-                      onChanged: _presenter.onPasswordChange,
-                      obscureText: true,
-                      style: Theme.of(context).textTheme.caption?.copyWith(
-                            color: VanillaColorScheme.black,
-                          ),
-                      cursorColor: VanillaColorScheme.dark,
-                      decoration: InputDecoration(
-                        disabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        errorText: snapshot.data?.fold(
-                          (l) {
-                            switch (l) {
-                              case ValidationError.empty:
-                                return "Esse campo é obrigatório.";
-                              case ValidationError.invalid:
-                                return "Senha inválida.";
-                              case ValidationError.tooShort:
-                                return "Senha curta demais.";
-                            }
-                          },
-                          (r) => null,
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        labelText: "Senha",
-                        labelStyle: Theme.of(context)
-                            .textTheme
-                            .caption
-                            ?.copyWith(
-                              color: VanillaColorScheme.black.withOpacity(0.4),
-                            ),
-                        filled: true,
-                        fillColor: VanillaColorScheme.light,
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.error,
-                            width: 0,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                            color: VanillaColorScheme.light,
-                            width: 0,
-                          ),
-                        ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
                       ),
-                    );
-                  }),
-              const SizedBox(height: 8),
-              StreamBuilder<String>(
-                  stream: _presenter.description,
-                  builder: (context, snapshot) {
-                    return VanillaTextField(
-                      labelText: "Descrição",
-                      onChange: _presenter.onDescriptionChange,
-                    );
-                  }),
-              const SizedBox(height: 8),
-              StreamBuilder<String>(
-                  stream: _presenter.instagramUser,
-                  builder: (context, snapshot) {
-                    return VanillaTextField(
-                      labelText: "Instagram",
-                      onChange: _presenter.onInstagramUserChange,
-                    );
-                  }),
-            ],
-          );
-        });
+                    ),
+                    errorText: snapshot.data?.fold(
+                      (l) {
+                        switch (l) {
+                          case ValidationError.empty:
+                            return "Esse campo é obrigatório.";
+                          case ValidationError.tooShort:
+                            return "Seu nome está curto demais.";
+                          case ValidationError.invalid:
+                            return "Esse nome é inválido.";
+                          default:
+                            return null;
+                        }
+                      },
+                      (r) => null,
+                    ),
+                    labelText: "Nome",
+                    labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: VanillaColorScheme.black.withOpacity(0.4),
+                        ),
+                    filled: true,
+                    fillColor: VanillaColorScheme.light,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StreamBuilder<Either<ValidationError, EmailAddress>?>(
+              stream: _presenter.emailState,
+              builder: (context, snapshot) {
+                return TextField(
+                  enabled: !(loadingSnapshot.data == true),
+                  textInputAction: TextInputAction.next,
+                  onChanged: _presenter.onEmailChange,
+                  keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: VanillaColorScheme.black,
+                      ),
+                  cursorColor: VanillaColorScheme.dark,
+                  decoration: InputDecoration(
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    errorText: snapshot.data?.fold(
+                      (l) {
+                        switch (l) {
+                          case ValidationError.empty:
+                            return "Esse campo é obrigatório.";
+                          case ValidationError.invalid:
+                            return "Esse e-mail é inválido.";
+                          default:
+                            return null;
+                        }
+                      },
+                      (r) => null,
+                    ),
+                    labelText: "Email",
+                    labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: VanillaColorScheme.black.withOpacity(0.4),
+                        ),
+                    filled: true,
+                    fillColor: VanillaColorScheme.light,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StreamBuilder<Either<ValidationError, Password>?>(
+              stream: _presenter.passwordState,
+              builder: (context, snapshot) {
+                return TextField(
+                  enabled: !(loadingSnapshot.data == true),
+                  onEditingComplete: FocusScope.of(context).unfocus,
+                  onChanged: _presenter.onPasswordChange,
+                  obscureText: true,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: VanillaColorScheme.black,
+                      ),
+                  cursorColor: VanillaColorScheme.dark,
+                  decoration: InputDecoration(
+                    disabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    errorText: snapshot.data?.fold(
+                      (l) {
+                        switch (l) {
+                          case ValidationError.empty:
+                            return "Esse campo é obrigatório.";
+                          case ValidationError.invalid:
+                            return "Senha inválida.";
+                          case ValidationError.tooShort:
+                            return "Senha curta demais.";
+                        }
+                      },
+                      (r) => null,
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    labelText: "Senha",
+                    labelStyle: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: VanillaColorScheme.black.withOpacity(0.4),
+                        ),
+                    filled: true,
+                    fillColor: VanillaColorScheme.light,
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.error,
+                        width: 0,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                      borderSide: BorderSide(
+                        color: VanillaColorScheme.light,
+                        width: 0,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StreamBuilder<String>(
+              stream: _presenter.description,
+              builder: (context, snapshot) {
+                return VanillaTextField(
+                  labelText: "Descrição",
+                  onChange: _presenter.onDescriptionChange,
+                );
+              },
+            ),
+            const SizedBox(height: 8),
+            StreamBuilder<String>(
+              stream: _presenter.instagramUser,
+              builder: (context, snapshot) {
+                return VanillaTextField(
+                  labelText: "Instagram",
+                  onChange: _presenter.onInstagramUserChange,
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Row socialLoginButtons() {
